@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FitTrack Pro - V.0.04b</title>
+    <title>FitTrack Pro - V.0.04c</title>
     <style>
         :root {
             --bg-main: #121214;
@@ -12,11 +12,12 @@
             --text-main: #f2f2f7;
             --text-muted: #8e8e93;
             --border: #2c2c2e;
-            --primary: #30d158;
-            --primary-blue: #0a84ff;
-            --primary-purple: #bf5af2;
-            --danger: #ff453a;
-            --shadow: rgba(0, 0, 0, 0.4);
+            /* Tonalità abbassate e più scure */
+            --primary: #24a142;
+            --primary-blue: #0066cc;
+            --primary-purple: #9a44c7;
+            --danger: #b33029;
+            --shadow: rgba(0, 0, 0, 0.5);
         }
 
         * {
@@ -71,7 +72,7 @@
         }
         .splash-content {
             background: var(--bg-card);
-            border: 2px solid rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.08);
             padding: 28px 20px;
             border-radius: 24px;
             text-align: center;
@@ -139,7 +140,7 @@
         }
 
         h2 {
-            font-size: 18px;
+            font-size: 17px;
             font-weight: 800;
             margin-top: 0;
             margin-bottom: 16px;
@@ -171,22 +172,47 @@
             font-weight: 700;
             outline: none;
             transition: border-color 0.2s;
+            text-align: left;
         }
 
         input:focus, select:focus {
             border-color: var(--primary-blue);
         }
 
-        /* Correzione Frecce Input Numeri (Spinner Style Fix) */
+        /* Stile Custom per le Frecce (Spinner) trasparenti e integrate nel BG */
+        input[type="number"] {
+            appearance: textfield;
+            -moz-appearance: textfield;
+        }
+        
         input[type="number"]::-webkit-inner-spin-button,
         input[type="number"]::-webkit-outer-spin-button {
-            opacity: 0.3;
             background: transparent;
+            opacity: 0.15;
             cursor: pointer;
+            padding: 4px;
         }
 
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
         .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+
+        /* Box Contenitore con Bordi per Input in Stile Immagine_3.png */
+        .input-block-container {
+            background: #1c1c1e;
+            border: 1px solid var(--border);
+            padding: 16px;
+            border-radius: 16px;
+            margin-bottom: 16px;
+        }
+        
+        .gym-input-box {
+            text-align: center;
+        }
+        .gym-input-box input {
+            text-align: center;
+            font-size: 16px;
+            background-color: var(--bg-input);
+        }
 
         button {
             width: 100%;
@@ -354,7 +380,7 @@
             width: auto;
         }
         .nav-item.active { color: var(--primary); }
-        .nav-item svg { width: 20px; height: 20px; fill: currentColor; }
+        .nav-item svg { width: 22px; height: 22px; fill: currentColor; display: block; }
 
         .app-page { display: none; }
         .app-page.active { display: block; }
@@ -393,9 +419,10 @@
                     <input type="number" id="session-duration" placeholder="60">
                 </div>
                 
-                <div style="background: var(--bg-input); padding: 16px; border-radius: 16px; margin-bottom: 16px; border: 1px solid var(--border);">
+                <!-- Box Contenitore con Bordi e Sfondi definiti -->
+                <div class="input-block-container">
                     <label>Esercizio Base</label>
-                    <select id="workout-name" onchange="toggleGymFields(this.value)" style="margin-bottom:12px;">
+                    <select id="workout-name" onchange="toggleGymFields(this.value)" style="margin-bottom:14px;">
                         <optgroup label="Esercizi con Bilanciere">
                             <option value="Squat">Squat</option>
                             <option value="Panca Piana">Panca Piana</option>
@@ -437,17 +464,17 @@
 
                     <div id="fields-weights">
                         <div class="grid-3">
-                            <div><label>Serie</label><input type="number" id="workout-series" placeholder="3"></div>
-                            <div><label>Reps</label><input type="number" id="workout-reps" placeholder="10"></div>
-                            <div><label>Kg</label><input type="number" id="workout-weight" placeholder="40"></div>
+                            <div class="gym-input-box"><label>Serie</label><input type="number" id="workout-series" placeholder="3"></div>
+                            <div class="gym-input-box"><label>Reps</label><input type="number" id="workout-reps" placeholder="10"></div>
+                            <div class="gym-input-box"><label>Kg</label><input type="number" id="workout-weight" placeholder="40"></div>
                         </div>
                     </div>
 
                     <div id="fields-cardio" style="display: none;">
                         <div class="grid-3">
-                            <div><label>Vel (km/h)</label><input type="number" id="cardio-speed" placeholder="6.0" step="0.1"></div>
-                            <div><label>Inc (%)</label><input type="number" id="cardio-inc" placeholder="2"></div>
-                            <div><label>Minuti</label><input type="number" id="cardio-time" placeholder="15"></div>
+                            <div class="gym-input-box"><label>Vel (km/h)</label><input type="number" id="cardio-speed" placeholder="6.0" step="0.1"></div>
+                            <div class="gym-input-box"><label>Inc (%)</label><input type="number" id="cardio-inc" placeholder="2"></div>
+                            <div class="gym-input-box"><label>Minuti</label><input type="number" id="cardio-time" placeholder="15"></div>
                         </div>
                     </div>
                     
@@ -623,11 +650,11 @@
 
     <!-- FOOTER LABELS -->
     <div class="footer-labels-group">
-        <div class="version-label">V.0.04b</div>
+        <div class="version-label">V.0.04c</div>
         <button class="quick-layout-toggle" onclick="toggleQuickLayout()">Cambia Layout Vista</button>
     </div>
 
-    <!-- NAV BAR -->
+    <!-- NAV BAR CORRETTA (ROTELLINA RIPRISTINATA) -->
     <nav class="nav-bar">
         <button class="nav-item" onclick="switchPage('page-gym', this)">
             <svg viewBox="0 0 24 24"><path d="M20.57 14.86l-2.7-2.7 3.4-3.4c.78-.78.78-2.05 0-2.83l-1.41-1.41c-.78-.78-2.05-.78-2.83 0l-3.4 3.4-2.7-2.7c-.78-.78-2.05-.78-2.83 0l-1.41 1.41c-.78.78-.78 2.05 0 2.83l2.7 2.7-3.4 3.4c-.78.78-.78 2.05 0 2.83l1.41 1.41c.78.78 2.05.78 2.83 0l3.4-3.4 2.7 2.7c.78.78 2.05.78 2.83 0l1.41-1.41c.78-.79.78-2.05 0-2.83z"/></svg>
@@ -646,7 +673,10 @@
             Archivio
         </button>
         <button class="nav-item" onclick="switchPage('page-settings', this)">
-            <svg viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.3c.06-.61.06-1.23 0-1.53l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.4-1.08-.73-1.69-.98l-.38-2.65C14.17 2.11 13.95 2 13.71 2h-4c-.24 0-.46.11-.5.34L8.83 5c-.61.25-1.17.59-1.69.98l-2.49-1c-.23-.09-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64l2.11 1.65c-.04.3-.06.62-.06.15s.02.62.06.15l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1c.52.4 1.08.73 1.69.98l.38 2.65c.03.24.25.34.5.34h4c.24 0 .46-.11.5-.34l.38-2.65c.61-.25 1.17-.59 1.69-.98l2.49 1c.23.09.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65zM12 15.5c-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5z"/></svg>
+            <!-- Codice SVG corretto e testato per la rotellina delle impostazioni -->
+            <svg viewBox="0 0 24 24">
+                <path d="M19.43 12.98c.04-.32.07-.64.07-.98s-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.4-1.08-.73-1.69-.98l-.38-2.65C14.46 2.18 14.25 2 14 2h-4c-.25 0-.46.18-.49.42l-.38 2.65c-.61.25-1.17.59-1.69.98l-2.49-1c-.23-.09-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64l2.11 1.65c-.04.32-.07.65-.07.98s.03.66.07.98l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1c.52.4 1.08.73 1.69.98l.38 2.65c.03.24.24.42.49.42h4c.25 0 .46-.18.49-.42l.38-2.65c.61-.25 1.17-.59 1.69-.98l2.49 1c.23.09.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65zM12 15.5c-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5z"/>
+            </svg>
             Impostazioni
         </button>
     </nav>
@@ -756,6 +786,7 @@
         }
     }
 
+    // Resto delle funzioni JavaScript invariate per garantire la stabilità dei dati
     function deleteFood(index) {
         let day = getDayData(currentDate);
         day.foods.splice(index, 1);
