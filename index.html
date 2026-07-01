@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FitTrack Pro - V.0.04c</title>
+    <title>FitTrack Pro - V.0.05a</title>
     <style>
         :root {
             --bg-main: #121214;
@@ -12,12 +12,13 @@
             --text-main: #f2f2f7;
             --text-muted: #8e8e93;
             --border: #2c2c2e;
-            /* Tonalità abbassate e più scure */
             --primary: #24a142;
             --primary-blue: #0066cc;
             --primary-purple: #9a44c7;
             --danger: #b33029;
             --shadow: rgba(0, 0, 0, 0.5);
+            --glass-bg: rgba(255, 255, 255, 0.08);
+            --glass-border: rgba(255, 255, 255, 0.12);
         }
 
         * {
@@ -56,6 +57,36 @@
             padding: 20px 16px;
         }
 
+        /* Custom Modern Toast Notification Container */
+        #custom-toast {
+            position: fixed;
+            top: 24px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-20px);
+            background: #262629;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-main);
+            padding: 14px 20px;
+            border-radius: 16px;
+            font-size: 14px;
+            font-weight: 600;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.6);
+            z-index: 3000;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s, transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            max-width: 90%;
+            width: 360px;
+        }
+        #custom-toast.show {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateX(-50%) translateY(0);
+        }
+
         /* Splash Screen Modal */
         .splash-overlay {
             position: fixed;
@@ -78,6 +109,7 @@
             text-align: center;
             max-width: 380px;
             box-shadow: 0 20px 40px var(--shadow);
+            position: relative;
         }
         .splash-title {
             font-size: 24px;
@@ -93,6 +125,28 @@
             line-height: 1.5;
             margin-bottom: 22px;
             font-weight: 600;
+            min-height: 60px;
+        }
+
+        /* Language Toggle Button Component */
+        .lang-toggle-btn {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            color: var(--text-main);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            width: auto;
+            margin-bottom: 14px;
+            transition: background 0.2s;
+        }
+        .lang-toggle-btn:hover {
+            background: rgba(255,255,255,0.15);
         }
 
         /* Top Bar */
@@ -179,24 +233,55 @@
             border-color: var(--primary-blue);
         }
 
-        /* Stile Custom per le Frecce (Spinner) trasparenti e integrate nel BG */
         input[type="number"] {
             appearance: textfield;
             -moz-appearance: textfield;
         }
-        
         input[type="number"]::-webkit-inner-spin-button,
         input[type="number"]::-webkit-outer-spin-button {
-            background: transparent;
-            opacity: 0.15;
+            display: none;
+        }
+
+        /* Glassmorphism Inline Controls (+ / -) */
+        .glass-counter-control {
+            display: flex;
+            align-items: center;
+            background-color: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        .glass-counter-btn {
+            background: var(--glass-bg);
+            border: none;
+            color: #fff;
+            font-size: 16px;
+            font-weight: 700;
+            width: 38px;
+            height: 44px;
             cursor: pointer;
-            padding: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+        }
+        .glass-counter-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+        .glass-counter-control input {
+            border: none;
+            text-align: center;
+            padding: 0;
+            height: 44px;
+            font-size: 15px;
         }
 
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
         .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
 
-        /* Box Contenitore con Bordi per Input in Stile Immagine_3.png */
+        /* Box Contenitore Palestra */
         .input-block-container {
             background: #1c1c1e;
             border: 1px solid var(--border);
@@ -207,11 +292,6 @@
         
         .gym-input-box {
             text-align: center;
-        }
-        .gym-input-box input {
-            text-align: center;
-            font-size: 16px;
-            background-color: var(--bg-input);
         }
 
         button {
@@ -388,14 +468,21 @@
 </head>
 <body>
 
-<!-- DISCLAIMER SPLASH SCREEN -->
+<!-- TOAST ALERT DI SISTEMA PERSONALIZZATO -->
+<div id="custom-toast">
+    <span style="font-size:18px;">✨</span>
+    <span id="toast-message">Messaggio di avviso temporaneo</span>
+</div>
+
+<!-- DISCLAIMER SPLASH SCREEN INTERNAZIONALE -->
 <div id="splash-screen" class="splash-overlay">
     <div class="splash-content">
+        <button class="lang-toggle-btn" onclick="toggleLanguageSystem()" id="splash-lang-btn">🇮🇹 Cambia in Italiano</button>
         <div class="splash-title">FitTrack Pro</div>
-        <div class="splash-text">
+        <div class="splash-text" id="splash-disclaimer-text">
             This application has been fully generated by Artificial Intelligence (AI) and is intended solely for personal use and tracking. It does not replace professional medical or fitness advice.
         </div>
-        <button class="btn-primary" onclick="closeSplashScreen()">Acknowledge & Continue</button>
+        <button class="btn-primary" onclick="closeSplashScreen()" id="splash-confirm-btn">Acknowledge & Continue</button>
     </div>
 </div>
 
@@ -414,12 +501,24 @@
         <div id="page-gym" class="app-page">
             <div class="card">
                 <h2>🏋️ Registro Allenamento</h2>
+                
+                <!-- NUOVO SELETORE TEMPO CON DUE MANOPOLE ORE/MINUTI -->
                 <div class="form-group">
-                    <label>Durata Totale Sessione (Minuti)</label>
-                    <input type="number" id="session-duration" placeholder="60">
+                    <label>Durata Totale Sessione</label>
+                    <div class="grid-2">
+                        <select id="session-hours">
+                            <option value="0">0 Ore</option>
+                            <option value="1">1 Ora</option>
+                            <option value="2">2 Ore</option>
+                            <option value="3">3 Ore</option>
+                        </select>
+                        <select id="session-minutes">
+                            <!-- Popolato dinamicamente da JS per comodità -->
+                        </select>
+                    </div>
                 </div>
                 
-                <!-- Box Contenitore con Bordi e Sfondi definiti -->
+                <!-- Box Contenitore con Input a Frecce Vetrate -->
                 <div class="input-block-container">
                     <label>Esercizio Base</label>
                     <select id="workout-name" onchange="toggleGymFields(this.value)" style="margin-bottom:14px;">
@@ -462,19 +561,62 @@
                         </optgroup>
                     </select>
 
+                    <!-- CONTROLLI CON SFONDO VETRO OPACIZZATO -->
                     <div id="fields-weights">
                         <div class="grid-3">
-                            <div class="gym-input-box"><label>Serie</label><input type="number" id="workout-series" placeholder="3"></div>
-                            <div class="gym-input-box"><label>Reps</label><input type="number" id="workout-reps" placeholder="10"></div>
-                            <div class="gym-input-box"><label>Kg</label><input type="number" id="workout-weight" placeholder="40"></div>
+                            <div class="gym-input-box">
+                                <label>Serie</label>
+                                <div class="glass-counter-control">
+                                    <button class="glass-counter-btn" onclick="stepInput('workout-series', -1)">−</button>
+                                    <input type="number" id="workout-series" value="4">
+                                    <button class="glass-counter-btn" onclick="stepInput('workout-series', 1)">+</button>
+                                </div>
+                            </div>
+                            <div class="gym-input-box">
+                                <label>Reps</label>
+                                <div class="glass-counter-control">
+                                    <button class="glass-counter-btn" onclick="stepInput('workout-reps', -1)">−</button>
+                                    <input type="number" id="workout-reps" value="10">
+                                    <button class="glass-counter-btn" onclick="stepInput('workout-reps', 1)">+</button>
+                                </div>
+                            </div>
+                            <div class="gym-input-box">
+                                <label>Kg</label>
+                                <div class="glass-counter-control">
+                                    <button class="glass-counter-btn" onclick="stepInput('workout-weight', -1)">−</button>
+                                    <input type="number" id="workout-weight" value="40">
+                                    <button class="glass-counter-btn" onclick="stepInput('workout-weight', 1)">+</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
                     <div id="fields-cardio" style="display: none;">
                         <div class="grid-3">
-                            <div class="gym-input-box"><label>Vel (km/h)</label><input type="number" id="cardio-speed" placeholder="6.0" step="0.1"></div>
-                            <div class="gym-input-box"><label>Inc (%)</label><input type="number" id="cardio-inc" placeholder="2"></div>
-                            <div class="gym-input-box"><label>Minuti</label><input type="number" id="cardio-time" placeholder="15"></div>
+                            <div class="gym-input-box">
+                                <label>Vel (km/h)</label>
+                                <div class="glass-counter-control">
+                                    <button class="glass-counter-btn" onclick="stepInput('cardio-speed', -0.5)">−</button>
+                                    <input type="number" id="cardio-speed" value="6.0" step="0.1">
+                                    <button class="glass-counter-btn" onclick="stepInput('cardio-speed', 0.5)">+</button>
+                                </div>
+                            </div>
+                            <div class="gym-input-box">
+                                <label>Inc (%)</label>
+                                <div class="glass-counter-control">
+                                    <button class="glass-counter-btn" onclick="stepInput('cardio-inc', -1)">−</button>
+                                    <input type="number" id="cardio-inc" value="2">
+                                    <button class="glass-counter-btn" onclick="stepInput('cardio-inc', 1)">+</button>
+                                </div>
+                            </div>
+                            <div class="gym-input-box">
+                                <label>Minuti</label>
+                                <div class="glass-counter-control">
+                                    <button class="glass-counter-btn" onclick="stepInput('cardio-time', -5)">−</button>
+                                    <input type="number" id="cardio-time" value="15">
+                                    <button class="glass-counter-btn" onclick="stepInput('cardio-time', 5)">+</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     
@@ -629,8 +771,14 @@
             </div>
 
             <div class="card">
-                <h2>🖥️ Interfaccia e Schermo</h2>
-                <div class="form-group" style="margin-bottom: 20px;">
+                <h2>🖥️ Interfaccia e Lingua</h2>
+                
+                <div class="form-group">
+                    <label>Lingua Informazioni</label>
+                    <button class="lang-toggle-btn" onclick="toggleLanguageSystem()" id="settings-lang-btn" style="margin-bottom:0;">🇮🇹 Italiano</button>
+                </div>
+                
+                <div class="form-group" style="margin-top: 14px; margin-bottom: 20px;">
                     <label>Seleziona Layout Dispositivo</label>
                     <select id="set-layout-select" onchange="setLayout(this.value)">
                         <option value="phone">Telefono (Compatto / Centrato)</option>
@@ -639,7 +787,7 @@
                 </div>
                 
                 <label>Copyright and Information</label>
-                <div class="info-disclaimer-box">
+                <div class="info-disclaimer-box" id="settings-disclaimer-text">
                     <strong>FitTrack Pro - AI Generated Project</strong><br><br>
                     This application has been fully generated by Artificial Intelligence (AI) and is intended solely for personal use and tracking. All tracking databases and computational functionalities are stored locally on the client device.
                 </div>
@@ -650,11 +798,11 @@
 
     <!-- FOOTER LABELS -->
     <div class="footer-labels-group">
-        <div class="version-label">V.0.04c</div>
+        <div class="version-label">V.0.05a</div>
         <button class="quick-layout-toggle" onclick="toggleQuickLayout()">Cambia Layout Vista</button>
     </div>
 
-    <!-- NAV BAR CORRETTA (ROTELLINA RIPRISTINATA) -->
+    <!-- NAV BAR -->
     <nav class="nav-bar">
         <button class="nav-item" onclick="switchPage('page-gym', this)">
             <svg viewBox="0 0 24 24"><path d="M20.57 14.86l-2.7-2.7 3.4-3.4c.78-.78.78-2.05 0-2.83l-1.41-1.41c-.78-.78-2.05-.78-2.83 0l-3.4 3.4-2.7-2.7c-.78-.78-2.05-.78-2.83 0l-1.41 1.41c-.78.78-.78 2.05 0 2.83l2.7 2.7-3.4 3.4c-.78.78-.78 2.05 0 2.83l1.41 1.41c.78.78 2.05.78 2.83 0l3.4-3.4 2.7 2.7c.78.78 2.05.78 2.83 0l1.41-1.41c.78-.79.78-2.05 0-2.83z"/></svg>
@@ -673,7 +821,6 @@
             Archivio
         </button>
         <button class="nav-item" onclick="switchPage('page-settings', this)">
-            <!-- Codice SVG corretto e testato per la rotellina delle impostazioni -->
             <svg viewBox="0 0 24 24">
                 <path d="M19.43 12.98c.04-.32.07-.64.07-.98s-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.4-1.08-.73-1.69-.98l-.38-2.65C14.46 2.18 14.25 2 14 2h-4c-.25 0-.46.18-.49.42l-.38 2.65c-.61.25-1.17.59-1.69.98l-2.49-1c-.23-.09-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64l2.11 1.65c-.04.32-.07.65-.07.98s.03.66.07.98l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1c.52.4 1.08.73 1.69.98l.38 2.65c.03.24.24.42.49.42h4c.25 0 .46-.18.49-.42l.38-2.65c.61-.25 1.17-.59 1.69-.98l2.49 1c.23.09.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65zM12 15.5c-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5z"/>
             </svg>
@@ -689,10 +836,82 @@
     let userTargets = JSON.parse(localStorage.getItem('fitTrackTargets')) || { kcal: 2000, water: 2500, layout: 'phone' };
     let mainDatabase = JSON.parse(localStorage.getItem('fitTrackDatabase_v3')) || {};
     let tempExercises = [];
+    
+    // Stato lingua interna per i disclaimer ("it" o "en")
+    let currentLang = "en"; 
+
+    // Popola dinamicamente i minuti nel nuovo menu a rotella
+    const minSelect = document.getElementById('session-minutes');
+    for(let m=0; m<=59; m++) {
+        let opt = document.createElement('option');
+        opt.value = m;
+        opt.innerText = m + " Minuti";
+        if(m === 30) opt.selected = true; // Valore predefinito intelligente
+        minSelect.appendChild(opt);
+    }
 
     document.getElementById('set-target-kcal').value = userTargets.kcal;
     document.getElementById('set-target-water').value = userTargets.water;
     document.getElementById('set-layout-select').value = userTargets.layout;
+
+    // Sistema Custom Toast (Rimpiazza l'alert di immagine_4.png)
+    function showToast(message) {
+        const toast = document.getElementById('custom-toast');
+        document.getElementById('toast-message').innerText = message;
+        toast.classList.add('show');
+        setTimeout(() => {
+            toast.classList.remove('show');
+        }, 3500);
+    }
+
+    // Gestione Traduzioni Dinamiche per Splash e Settings
+    const translations = {
+        en: {
+            splashText: "This application has been fully generated by Artificial Intelligence (AI) and is intended solely for personal use and tracking. It does not replace professional medical or fitness advice.",
+            splashBtn: "Acknowledge & Continue",
+            splashToggle: "🇮🇹 Cambia in Italiano",
+            settingsToggle: "🇮🇹 Italiano",
+            settingsBox: "<strong>FitTrack Pro - AI Generated Project</strong><br><br>This application has been fully generated by Artificial Intelligence (AI) and is intended solely for personal use and tracking. All tracking databases and computational functionalities are stored locally on the client device."
+        },
+        it: {
+            splashText: "Questa applicazione è stata interamente generata da un'Intelligenza Artificiale (AI) ed è intesa esclusivamente per uso personale e tracciamento. Non sostituisce pareri medici o fitness professionali.",
+            splashBtn: "Prendi atto e Continua",
+            splashToggle: "🇬🇧 Switch to English",
+            settingsToggle: "🇬🇧 English",
+            settingsBox: "<strong>FitTrack Pro - Progetto Generato da AI</strong><br><br>Questa applicazione è stata interamente sviluppata tramite Intelligenza Artificiale ed è pensata solo per l'auto-tracciamento personale. Tutti i dati e i database salvati risiedono localmente sul browser del tuo dispositivo.",
+        }
+    };
+
+    function toggleLanguageSystem() {
+        currentLang = currentLang === "en" ? "it" : "en";
+        const t = translations[currentLang];
+        
+        document.getElementById('splash-disclaimer-text').innerHTML = t.splashText;
+        document.getElementById('splash-confirm-btn').innerText = t.splashBtn;
+        document.getElementById('splash-lang-btn').innerText = t.splashToggle;
+        
+        document.getElementById('settings-lang-btn').innerText = t.settingsToggle;
+        document.getElementById('settings-disclaimer-text').innerHTML = t.settingsBox;
+        
+        showToast(currentLang === "it" ? "Lingua informativa cambiata in Italiano!" : "Information language switched to English!");
+    }
+
+    // Funzione helper per i pulsanti a freccia (+ e -) con stile Glassmorphism
+    function stepInput(inputId, amount) {
+        const input = document.getElementById(inputId);
+        let currentVal = parseFloat(input.value) || 0;
+        let step = parseFloat(input.step) || 1;
+        
+        let newVal = currentVal + amount;
+        if (newVal < 0) newVal = 0;
+        
+        // Gestione decimali pulita per la velocità cardio
+        if(inputId === 'cardio-speed') {
+            input.value = newVal.toFixed(1);
+        } else {
+            input.value = Math.round(newVal);
+        }
+    }
 
     function closeSplashScreen() {
         document.getElementById('splash-screen').style.display = 'none';
@@ -722,7 +941,7 @@
     function forceSaveCurrentDay() {
         getDayData(currentDate); 
         saveToLocalStorage();
-        alert(`Giornata del ${formatDateItalian(currentDate)} memorizzata stabilmente in Archivio!`);
+        showToast(`Giornata del ${formatDateItalian(currentDate)} salvata in Archivio!`);
     }
 
     function switchPage(pageId, navElement) {
@@ -783,14 +1002,15 @@
             document.getElementById('food-name').value = '';
             document.getElementById('food-weight').value = '';
             saveToLocalStorage();
+            showToast("Alimento aggiunto!");
         }
     }
 
-    // Resto delle funzioni JavaScript invariate per garantire la stabilità dei dati
     function deleteFood(index) {
         let day = getDayData(currentDate);
         day.foods.splice(index, 1);
         saveToLocalStorage();
+        showToast("Alimento rimosso.");
     }
 
     function modifyWater(amount) {
@@ -846,13 +1066,20 @@
 
     function saveCompleteSession() {
         let day = getDayData(currentDate);
-        let duration = document.getElementById('session-duration').value || "0";
+        
+        // Calcola la durata convertendo la selezione delle ore e dei minuti
+        let hrs = parseInt(document.getElementById('session-hours').value) || 0;
+        let mins = parseInt(document.getElementById('session-minutes').value) || 0;
+        let totalDurationMinutes = (hrs * 60) + mins;
+
         if(tempExercises.length > 0) {
-            day.sessions.push({ duration: duration, exercises: [...tempExercises] });
+            day.sessions.push({ duration: totalDurationMinutes, exercises: [...tempExercises] });
             tempExercises = [];
-            document.getElementById('session-duration').value = '';
             document.getElementById('temp-exercise-list').innerHTML = '';
             saveToLocalStorage();
+            showToast("Sessione salvata con successo!");
+        } else {
+            showToast("Inserisci almeno un esercizio prima di salvare.");
         }
     }
 
@@ -860,6 +1087,7 @@
         let day = getDayData(currentDate);
         day.sessions.splice(idx, 1);
         saveToLocalStorage();
+        showToast("Sessione rimossa.");
     }
 
     function saveSleep() {
@@ -873,6 +1101,7 @@
             if (diff < 0) diff += 24 * 60;
             day.sleep = `${Math.floor(diff/60)}h ${diff%60}m`;
             saveToLocalStorage();
+            showToast("Finestra sonno aggiornata!");
         }
     }
 
@@ -1007,17 +1236,6 @@
                 txt += `* [${f.meal}] ${f.name} (${f.weight}g) -> ${fKcal.toFixed(0)} kcal (C:${((f.carb)*(f.weight/100)).toFixed(0)}g P:${((f.prot)*(f.weight/100)).toFixed(0)}g G:${((f.fat)*(f.weight/100)).toFixed(0)}g)\n`;
             });
         }
-        
-        txt += `\n[ALLENAMENTO PALESTRA]\n`;
-        if(data.sessions.length === 0) txt += `Nessuna sessione registrata.\n`;
-        else {
-            data.sessions.forEach((s, idx) => {
-                txt += `Sessione #${idx+1} (${s.duration} min):\n`;
-                s.exercises.forEach(ex => {
-                    txt += ex.isCardio ? `  - ${ex.name}: Vel:${ex.speed}km/h Inc:${ex.inc}% Tempo:${ex.time}min\n` : `  - ${ex.name}: ${ex.series}x${ex.reps} @ ${ex.weight}kg\n`;
-                });
-            });
-        }
 
         const blob = new Blob([txt], { type: "text/plain" });
         const url = URL.createObjectURL(blob);
@@ -1038,6 +1256,7 @@
             delete mainDatabase[date];
             saveToLocalStorage();
             updateArchiveList();
+            showToast("Giornata eliminata.");
         }
     }
 
@@ -1069,9 +1288,9 @@
                 if (parsedData && typeof parsedData === "object") {
                     mainDatabase = Object.assign({}, mainDatabase, parsedData);
                     saveToLocalStorage();
-                    alert("Importazione completata con successo!");
+                    showToast("Importazione completata!");
                 }
-            } catch (err) { alert("File non valido."); }
+            } catch (err) { showToast("File non valido."); }
         };
         reader.readAsText(file);
     }
