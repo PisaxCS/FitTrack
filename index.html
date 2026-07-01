@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FitTrack Pro - V.0.03c</title>
+    <title>FitTrack Pro - V.0.04a</title>
     <style>
         :root {
             --bg-main: #121214;
@@ -21,7 +21,7 @@
 
         * {
             box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Inter", "Segoe UI", sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", "Segoe UI", sans-serif;
             -webkit-tap-highlight-color: transparent;
             letter-spacing: -0.2px;
         }
@@ -55,6 +55,45 @@
             padding: 24px 20px;
         }
 
+        /* Splash Screen Modal */
+        .splash-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(18, 18, 20, 0.98);
+            z-index: 2000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 30px;
+        }
+        .splash-content {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            padding: 32px 24px;
+            border-radius: 28px;
+            text-align: center;
+            max-width: 400px;
+            box-shadow: 0 20px 40px var(--shadow);
+        }
+        .splash-title {
+            font-size: 26px;
+            font-weight: 900;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, #ffffff, #a1a1aa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .splash-text {
+            font-size: 14px;
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 24px;
+            font-weight: 600;
+        }
+
         /* Top Bar */
         .top-bar {
             display: flex;
@@ -69,8 +108,8 @@
         }
 
         .top-bar h1 {
-            font-size: 22px;
-            font-weight: 800;
+            font-size: 24px;
+            font-weight: 900;
             margin: 0;
             letter-spacing: -0.5px;
             background: linear-gradient(135deg, #ffffff, #a1a1aa);
@@ -85,11 +124,11 @@
             padding: 10px 14px;
             border-radius: 12px;
             font-size: 14px;
-            font-weight: 600;
+            font-weight: 700;
             outline: none;
         }
 
-        /* Card Card */
+        /* Card Setup */
         .card {
             background-color: var(--bg-card);
             border-radius: 24px;
@@ -100,8 +139,8 @@
         }
 
         h2 {
-            font-size: 18px;
-            font-weight: 700;
+            font-size: 20px;
+            font-weight: 800;
             margin-top: 0;
             margin-bottom: 20px;
             display: flex;
@@ -113,12 +152,12 @@
 
         label {
             display: block;
-            font-size: 11px;
+            font-size: 12px;
             text-transform: uppercase;
             letter-spacing: 0.8px;
             margin-bottom: 8px;
             color: var(--text-muted);
-            font-weight: 700;
+            font-weight: 800;
         }
 
         input, select {
@@ -129,7 +168,7 @@
             background-color: var(--bg-input);
             color: var(--text-main);
             font-size: 15px;
-            font-weight: 500;
+            font-weight: 700;
             outline: none;
             transition: border-color 0.2s;
         }
@@ -147,7 +186,7 @@
             border-radius: 14px;
             border: none;
             font-size: 15px;
-            font-weight: 600;
+            font-weight: 800;
             cursor: pointer;
             transition: transform 0.1s, opacity 0.2s;
         }
@@ -165,7 +204,7 @@
         .progress-container {
             background-color: var(--bg-input);
             border-radius: 8px;
-            height: 8px;
+            height: 10px;
             width: 100%;
             overflow: hidden;
         }
@@ -187,8 +226,8 @@
             text-align: center;
             margin-bottom: 16px;
         }
-        .macro-box span { display: block; font-size: 10px; color: var(--text-muted); font-weight: 700; text-transform: uppercase; margin-bottom: 4px; }
-        .macro-box strong { font-size: 15px; font-weight: 700; color: var(--text-main); }
+        .macro-box span { display: block; font-size: 11px; color: var(--text-muted); font-weight: 800; text-transform: uppercase; margin-bottom: 4px; }
+        .macro-box strong { font-size: 16px; font-weight: 900; color: var(--text-main); }
 
         /* Sotto-Sezioni Pasti */
         .meal-section {
@@ -202,8 +241,8 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-weight: 700;
-            font-size: 14px;
+            font-weight: 800;
+            font-size: 15px;
             margin-bottom: 8px;
         }
 
@@ -211,13 +250,14 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 10px 0;
+            padding: 12px 0;
             border-bottom: 1px solid rgba(255,255,255,0.04);
-            font-size: 14px;
+            font-size: 15px;
         }
         .list-item:last-child { border-bottom: none; }
-        .list-item-meta { display: block; font-size: 12px; color: var(--text-muted); margin-top: 2px; }
-        .action-icon { background: none; width: auto; padding: 4px 8px; color: var(--danger); font-size: 14px; font-weight: 400; }
+        .list-item strong { font-weight: 700; }
+        .list-item-meta { display: block; font-size: 13px; color: var(--text-muted); margin-top: 4px; font-weight: 600; }
+        .action-icon { background: none; width: auto; padding: 4px 8px; color: var(--danger); font-size: 15px; font-weight: 700; }
 
         /* Archivio */
         .archive-item {
@@ -228,7 +268,7 @@
             margin-bottom: 12px;
         }
         .archive-header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-        .archive-date { font-weight: 700; font-size: 14px; color: var(--primary); cursor: pointer; }
+        .archive-date { font-weight: 800; font-size: 15px; color: var(--primary); cursor: pointer; }
 
         .muted-backup-box {
             background: var(--bg-card);
@@ -237,6 +277,17 @@
             padding: 16px;
             margin-top: 20px;
             font-size: 13px;
+        }
+
+        .info-disclaimer-box {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 16px;
+            font-size: 13px;
+            line-height: 1.5;
+            color: var(--text-muted);
+            font-weight: 600;
         }
 
         /* Labels e Switcher bassi */
@@ -250,7 +301,7 @@
             align-items: center;
             pointer-events: none;
         }
-        .version-label { font-size: 11px; color: #48484a; font-weight: 700; }
+        .version-label { font-size: 11px; color: #48484a; font-weight: 800; }
         .quick-layout-toggle {
             font-size: 11px;
             color: var(--primary-blue);
@@ -260,7 +311,7 @@
             border: none;
             width: auto;
             padding: 0;
-            font-weight: 700;
+            font-weight: 800;
         }
 
         /* Navigation Bar Inferiore */
@@ -286,8 +337,8 @@
             flex-direction: column;
             align-items: center;
             color: #8e8e93;
-            font-size: 10px;
-            font-weight: 600;
+            font-size: 11px;
+            font-weight: 700;
             cursor: pointer;
             gap: 5px;
             background: none;
@@ -303,9 +354,21 @@
 </head>
 <body>
 
+<!-- DISCLAIMER SPLASH SCREEN -->
+<div id="splash-screen" class="splash-overlay">
+    <div class="splash-content">
+        <div class="splash-title">FitTrack Pro</div>
+        <div class="splash-text">
+            This application has been fully generated by Artificial Intelligence (AI) and is intended solely for personal use and tracking. It does not replace professional medical or fitness advice.
+        </div>
+        <button class="btn-primary" onclick="closeSplashScreen()">Acknowledge & Continue</button>
+    </div>
+</div>
+
 <div id="app-wrapper" class="phone-wrapper layout-phone">
     <div class="app-container">
         
+        <!-- TOP BAR -->
         <div class="top-bar">
             <h1 id="app-logo">FitTrack</h1>
             <div class="date-picker-wrapper">
@@ -313,77 +376,10 @@
             </div>
         </div>
 
-        <div id="page-food" class="app-page active">
-            <div class="card">
-                <h2>🍎 Riepilogo Nutrizionale</h2>
-                <div class="macro-grid">
-                    <div class="macro-box"><span>Kcal</span><strong id="total-kcal">0</strong></div>
-                    <div class="macro-box"><span>Carb</span><strong id="total-carb">0g</strong></div>
-                    <div class="macro-box"><span>Prot</span><strong id="total-prot">0g</strong></div>
-                    <div class="macro-box"><span>Gras</span><strong id="total-fat">0g</strong></div>
-                    <div class="macro-box"><span>Fibre</span><strong id="total-fiber">0g</strong></div>
-                </div>
-                <div class="progress-wrapper">
-                    <label>Fabbisogno Energetico (<span id="lbl-target-kcal">2000</span> Kcal)</label>
-                    <div class="progress-container"><div id="kcal-progress" class="progress-fill"></div></div>
-                </div>
-                <button class="btn-primary" style="font-size: 13px; padding: 10px;" onclick="forceSaveCurrentDay()">💾 Memorizza giornata in Archivio</button>
-            </div>
-
-            <div class="card">
-                <h2>➕ Inserisci Alimento</h2>
-                <div class="form-group">
-                    <label>Seleziona Pasto</label>
-                    <select id="food-meal">
-                        <option value="Colazione">Colazione</option>
-                        <option value="Pranzo">Pranzo</option>
-                        <option value="Cena">Cena</option>
-                        <option value="Snack">Snacks / Altro</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Nome Cibo</label>
-                    <input type="text" id="food-name" placeholder="Es. Pasta, fagiolini, mela">
-                </div>
-                <div class="grid-2 form-group">
-                    <div><label>Peso usato (g)</label><input type="number" id="food-weight" placeholder="100"></div>
-                    <div><label>Kcal (su 100g)</label><input type="number" id="food-kcal" placeholder="350"></div>
-                </div>
-                <div class="grid-2 form-group">
-                    <div><label>Carboidrati (100g)</label><input type="number" id="food-carb" placeholder="70"></div>
-                    <div><label>Proteine (100g)</label><input type="number" id="food-prot" placeholder="12"></div>
-                </div>
-                <div class="grid-2 form-group">
-                    <div><label>Grassi (100g)</label><input type="number" id="food-fat" placeholder="2"></div>
-                    <div><label>Fibre (100g)</label><input type="number" id="food-fiber" placeholder="3"></div>
-                </div>
-                <button class="btn-primary" onclick="addFood()">Aggiungi nel Diario</button>
-            </div>
-
-            <div class="card">
-                <h2>🍽️ Distribuzione dei Pasti</h2>
-                <div class="meal-section" id="meal-Colazione">
-                    <div class="meal-header"><span style="color:#ff9f0a;">☕ Colazione</span><span class="meal-kcal" id="kcal-Colazione">0 kcal</span></div>
-                    <div class="item-list" id="list-Colazione"></div>
-                </div>
-                <div class="meal-section" id="meal-Pranzo">
-                    <div class="meal-header"><span style="color:#0a84ff;">🍝 Pranzo</span><span class="meal-kcal" id="kcal-Pranzo">0 kcal</span></div>
-                    <div class="item-list" id="list-Pranzo"></div>
-                </div>
-                <div class="meal-section" id="meal-Cena">
-                    <div class="meal-header"><span style="color:#30d158;">🥩 Cena</span><span class="meal-kcal" id="kcal-Cena">0 kcal</span></div>
-                    <div class="item-list" id="list-Cena"></div>
-                </div>
-                <div class="meal-section" id="meal-Snack">
-                    <div class="meal-header"><span style="color:#64d2ff;">🍿 Snacks / Altro</span><span class="meal-kcal" id="kcal-Snack">0 kcal</span></div>
-                    <div class="item-list" id="list-Snack"></div>
-                </div>
-            </div>
-        </div>
-
+        <!-- PALESTRA -->
         <div id="page-gym" class="app-page">
             <div class="card">
-                <h2>🏋️ Registro Allenamento</h2>
+                <h2>Registro Allenamento</h2>
                 <div class="form-group">
                     <label>Durata Totale Sessione (Minuti)</label>
                     <input type="number" id="session-duration" placeholder="60">
@@ -456,15 +452,16 @@
             </div>
 
             <div class="card">
-                <h2>📋 Sessioni Svolte Oggi</h2>
+                <h2>Sessioni Svolte Oggi</h2>
                 <div id="saved-sessions-list"></div>
             </div>
         </div>
 
+        <!-- SALUTE -->
         <div id="page-lifestyle" class="app-page">
             <div class="card">
-                <h2>💧 Idratazione Quotidiana</h2>
-                <h3 style="margin-top:0; margin-bottom: 8px; font-size: 20px;"><span id="water-total">0</span> ml / <span id="lbl-target-water">2500</span> ml</h3>
+                <h2>Idratazione Quotidiana</h2>
+                <h3 style="margin-top:0; margin-bottom: 8px; font-size: 22px;"><span id="water-total">0</span> ml / <span id="lbl-target-water">2500</span> ml</h3>
                 <div class="progress-container" style="height: 10px; margin-bottom: 20px;">
                     <div id="water-progress" class="progress-fill" style="background-color: var(--primary-blue);"></div>
                 </div>
@@ -489,8 +486,8 @@
             </div>
 
             <div class="card">
-                <h2>🌙 Tracciamento Riposo</h2>
-                <h3 style="margin-top: 0; margin-bottom: 20px; font-size: 20px;">Ore Totali: <span id="sleep-total" style="color:var(--primary-purple);">0h 0m</span></h3>
+                <h2>Tracciamento Riposo</h2>
+                <h3 style="margin-top: 0; margin-bottom: 20px; font-size: 22px;">Ore Totali: <span id="sleep-total" style="color:var(--primary-purple);">0h 0m</span></h3>
                 <div class="grid-2 form-group">
                     <div><label>Addormentato</label><input type="time" id="sleep-bed"></div>
                     <div><label>Sveglia</label><input type="time" id="sleep-wake"></div>
@@ -499,22 +496,93 @@
             </div>
         </div>
 
+        <!-- HOME (EX DIARIO) -->
+        <div id="page-food" class="app-page active">
+            <div class="card">
+                <h2>Riepilogo Nutrizionale</h2>
+                <div class="macro-grid">
+                    <div class="macro-box"><span>Kcal</span><strong id="total-kcal">0</strong></div>
+                    <div class="macro-box"><span>Carb</span><strong id="total-carb">0g</strong></div>
+                    <div class="macro-box"><span>Prot</span><strong id="total-prot">0g</strong></div>
+                    <div class="macro-box"><span>Gras</span><strong id="total-fat">0g</strong></div>
+                    <div class="macro-box"><span>Fibre</span><strong id="total-fiber">0g</strong></div>
+                </div>
+                <div class="progress-wrapper">
+                    <label>Fabbisogno Energetico (<span id="lbl-target-kcal">2000</span> Kcal)</label>
+                    <div class="progress-container"><div id="kcal-progress" class="progress-fill"></div></div>
+                </div>
+                <button class="btn-primary" style="font-size: 13px; padding: 10px;" onclick="forceSaveCurrentDay()">Memorizza giornata in Archivio</button>
+            </div>
+
+            <div class="card">
+                <h2>Inserisci Alimento</h2>
+                <div class="form-group">
+                    <label>Seleziona Pasto</label>
+                    <select id="food-meal">
+                        <option value="Colazione">Colazione</option>
+                        <option value="Pranzo">Pranzo</option>
+                        <option value="Cena">Cena</option>
+                        <option value="Snack">Snacks / Altro</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Nome Cibo</label>
+                    <input type="text" id="food-name" placeholder="Es. Pasta, fagiolini, mela">
+                </div>
+                <div class="grid-2 form-group">
+                    <div><label>Peso usato (g)</label><input type="number" id="food-weight" placeholder="100"></div>
+                    <div><label>Kcal (su 100g)</label><input type="number" id="food-kcal" placeholder="350"></div>
+                </div>
+                <div class="grid-2 form-group">
+                    <div><label>Carboidrati (100g)</label><input type="number" id="food-carb" placeholder="70"></div>
+                    <div><label>Proteine (100g)</label><input type="number" id="food-prot" placeholder="12"></div>
+                </div>
+                <div class="grid-2 form-group">
+                    <div><label>Grassi (100g)</label><input type="number" id="food-fat" placeholder="2"></div>
+                    <div><label>Fibre (100g)</label><input type="number" id="food-fiber" placeholder="3"></div>
+                </div>
+                <button class="btn-primary" onclick="addFood()">Aggiungi nel Diario</button>
+            </div>
+
+            <div class="card">
+                <h2>Distribuzione dei Pasti</h2>
+                <div class="meal-section" id="meal-Colazione">
+                    <div class="meal-header"><span style="color:#ff9f0a;">Colazione</span><span class="meal-kcal" id="kcal-Colazione">0 kcal</span></div>
+                    <div class="item-list" id="list-Colazione"></div>
+                </div>
+                <div class="meal-section" id="meal-Pranzo">
+                    <div class="meal-header"><span style="color:#0a84ff;">Pranzo</span><span class="meal-kcal" id="kcal-Pranzo">0 kcal</span></div>
+                    <div class="item-list" id="list-Pranzo"></div>
+                </div>
+                <div class="meal-section" id="meal-Cena">
+                    <div class="meal-header"><span style="color:#30d158;">Cena</span><span class="meal-kcal" id="kcal-Cena">0 kcal</span></div>
+                    <div class="item-list" id="list-Cena"></div>
+                </div>
+                <div class="meal-section" id="meal-Snack">
+                    <div class="meal-header"><span style="color:#64d2ff;">Snacks / Altro</span><span class="meal-kcal" id="kcal-Snack">0 kcal</span></div>
+                    <div class="item-list" id="list-Snack"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ARCHIVIO -->
         <div id="page-archive" class="app-page">
             <div class="card">
-                <h2>🗄️ Storico Salvataggi</h2>
+                <h2>Storico Salvataggi</h2>
                 <div id="archive-container"></div>
             </div>
 
             <div class="muted-backup-box">
-                <span style="font-weight: 700; display: block; margin-bottom: 8px; color:var(--text-main); font-size:12px; text-transform:uppercase; letter-spacing:0.5px;">Gestione Backup</span>
-                <button class="btn-neutral-muted" style="font-size:12px; padding:8px; margin-bottom:10px;" onclick="exportDatabaseToHTML()">Esporta File HTML</button>
+                <span style="font-weight: 800; display: block; margin-bottom: 8px; color:var(--text-main); font-size:12px; text-transform:uppercase; letter-spacing:0.5px;">Gestione Backup Database</span>
+                <button class="btn-neutral-muted" style="font-size:12px; padding:8px; margin-bottom:10px;" onclick="exportDatabaseToHTML()">Esporta File HTML Completo</button>
                 <input type="file" id="import-file-input" accept=".html" style="font-size:12px; padding:6px; background:transparent; border:none;" onchange="importDatabaseFromHTML(this)">
             </div>
         </div>
 
+        <!-- IMPOSTAZIONI -->
         <div id="page-settings" class="app-page">
             <div class="card">
-                <h2>⚙️ Impostazioni Traguardi</h2>
+                <h2>Impostazioni Traguardi</h2>
                 <div class="form-group">
                     <label>Target Calorie Giornaliere (Kcal)</label>
                     <input type="number" id="set-target-kcal" value="2000" onchange="updateTargetsFromSettings()">
@@ -526,27 +594,33 @@
             </div>
 
             <div class="card">
-                <h2>🖥️ Interfaccia e Schermo</h2>
-                <label>Seleziona Layout Dispositivo</label>
-                <select id="set-layout-select" onchange="setLayout(this.value)">
-                    <option value="phone">Telefono (Compatto / Centrato)</option>
-                    <option value="pc">PC / Tablet (Largo)</option>
-                </select>
+                <h2>Interfaccia e Schermo</h2>
+                <div class="form-group" style="margin-bottom: 20px;">
+                    <label>Seleziona Layout Dispositivo</label>
+                    <select id="set-layout-select" onchange="setLayout(this.value)">
+                        <option value="phone">Telefono (Compatto / Centrato)</option>
+                        <option value="pc">PC / Tablet (Largo)</option>
+                    </select>
+                </div>
+                
+                <label>Copyright and Information</label>
+                <div class="info-disclaimer-box">
+                    <strong>FitTrack Pro - AI Generated Project</strong><br><br>
+                    This application has been fully generated by Artificial Intelligence (AI) and is intended solely for personal use and tracking. All tracking databases and computational functionalities are stored locally on the client device.
+                </div>
             </div>
         </div>
 
     </div>
 
+    <!-- FOOTER LABELS -->
     <div class="footer-labels-group">
-        <div class="version-label">V.0.03c</div>
+        <div class="version-label">V.0.04a</div>
         <button class="quick-layout-toggle" onclick="toggleQuickLayout()">Cambia Layout Vista</button>
     </div>
 
+    <!-- NAV BAR (REORGANIZED WITH HOME IN THE MIDDLE) -->
     <nav class="nav-bar">
-        <button class="nav-item active" onclick="switchPage('page-food', this)">
-            <svg viewBox="0 0 24 24"><path d="M12 2c-5.52 0-10 4.48-10 10s4.48 10 10 10 10-4.48 10-10-4.48-10-10-10zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg>
-            Diario
-        </button>
         <button class="nav-item" onclick="switchPage('page-gym', this)">
             <svg viewBox="0 0 24 24"><path d="M20.57 14.86l-2.7-2.7 3.4-3.4c.78-.78.78-2.05 0-2.83l-1.41-1.41c-.78-.78-2.05-.78-2.83 0l-3.4 3.4-2.7-2.7c-.78-.78-2.05-.78-2.83 0l-1.41 1.41c-.78.78-.78 2.05 0 2.83l2.7 2.7-3.4 3.4c-.78.78-.78 2.05 0 2.83l1.41 1.41c.78.78 2.05.78 2.83 0l3.4-3.4 2.7 2.7c.78.78 2.05.78 2.83 0l1.41-1.41c.78-.79.78-2.05 0-2.83z"/></svg>
             Palestra
@@ -554,6 +628,10 @@
         <button class="nav-item" onclick="switchPage('page-lifestyle', this)">
             <svg viewBox="0 0 24 24"><path d="M12 2c-5.33 4.55-8 8.41-8 11.58 0 4.79 3.49 8.42 8 8.42s8-3.63 8-8.42c0-3.17-2.67-7.03-8-11.58zm0 18c-3.3 0-6-2.52-6-6.42 0-2.32 2.02-5.46 6-9.04 3.97 3.58 6 6.71 6 9.04 0 3.9-2.7 6.42-6 6.42z"/></svg>
             Salute
+        </button>
+        <button class="nav-item active" id="default-nav-btn" onclick="switchPage('page-food', this)">
+            <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+            Home
         </button>
         <button class="nav-item" onclick="switchPage('page-archive', this)">
             <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zm-8-2h6v-2h-6v2zm0-4h6v-2h-6v2zm0-4h6V7h-6v2z"/></svg>
@@ -577,6 +655,10 @@
     document.getElementById('set-target-kcal').value = userTargets.kcal;
     document.getElementById('set-target-water').value = userTargets.water;
     document.getElementById('set-layout-select').value = userTargets.layout;
+
+    function closeSplashScreen() {
+        document.getElementById('splash-screen').style.display = 'none';
+    }
 
     function applyTargetLabels() {
         document.getElementById('lbl-target-kcal').innerText = userTargets.kcal;
@@ -780,7 +862,7 @@
                         <span class="list-item-meta">C: ${c.toFixed(0)}g | P: ${p.toFixed(0)}g | G: ${f.toFixed(0)}g | Fib: ${fib.toFixed(1)}g</span>
                     </div>
                     <div style="display:flex; align-items:center;">
-                        <strong style="margin-right:4px;">${k.toFixed(0)} kcal</strong>
+                        <strong style="margin-right:8px;">${k.toFixed(0)} kcal</strong>
                         <button class="action-icon" onclick="deleteFood(${index})">✕</button>
                     </div>
                 </div>`;
@@ -813,10 +895,10 @@
             sList.innerHTML += `
                 <div style="background:var(--bg-input); padding:14px; border-radius:16px; margin-bottom:12px; border:1px solid var(--border);">
                     <div style="display:flex; justify-content:between; align-items:center; margin-bottom:6px;">
-                        <span style="font-weight:700; color:var(--primary-blue); font-size:13px;">⏱️ Sessione Palestra (${session.duration} min)</span>
+                        <span style="font-weight:800; color:var(--primary-blue); font-size:13px;">Sessione Palestra (${session.duration} min)</span>
                         <button class="action-icon" style="margin-left:auto; font-size:12px;" onclick="deleteSession(${sIdx})">Rimuovi</button>
                     </div>
-                    <ul style="margin:0; padding-left:18px; font-size:12px; color:var(--text-muted);">${exercisesHtml}</ul>
+                    <ul style="margin:0; padding-left:18px; font-size:13px; color:var(--text-muted);">${exercisesHtml}</ul>
                 </div>`;
         });
     }
@@ -827,7 +909,7 @@
         let sortedDates = Object.keys(mainDatabase).sort((a,b) => new Date(b) - new Date(a));
         
         if(sortedDates.length === 0) {
-            container.innerHTML = '<p style="color:var(--text-muted); font-size:13px;">Archivio vuoto.</p>';
+            container.innerHTML = '<p style="color:var(--text-muted); font-size:14px; font-weight:700;">Archivio vuoto.</p>';
             return;
         }
 
@@ -839,25 +921,77 @@
             container.innerHTML += `
                 <div class="archive-item">
                     <div class="archive-header-row">
-                        <div class="archive-date" onclick="selectDateFromArchive('${date}')">📅 ${formatDateItalian(date)}</div>
-                        <div style="display:flex; gap: 8px;">
-                            <button class="btn-blue" style="padding: 4px 10px; font-size: 12px; width: auto; border-radius:8px;" onclick="selectDateFromArchive('${date}')">Carica</button>
-                            <button class="btn-danger-outline" style="padding: 4px 10px; font-size: 12px; width: auto; border-radius:8px;" onclick="deleteDayFromArchive('${date}')">Elimina</button>
+                        <div class="archive-date" onclick="selectDateFromArchive('${date}')">${formatDateItalian(date)}</div>
+                        <div style="display:flex; gap: 6px;">
+                            <button class="btn-blue" style="padding: 6px 10px; font-size: 11px; width: auto; border-radius:8px;" onclick="selectDateFromArchive('${date}')">Carica</button>
+                            <button class="btn-neutral-muted" style="padding: 6px 10px; font-size: 11px; width: auto; border-radius:8px; border-color:var(--primary-blue); color:var(--primary-blue);" onclick="exportSingleDayTXT('${date}')">TXT</button>
+                            <button class="btn-danger-outline" style="padding: 6px 10px; font-size: 11px; width: auto; border-radius:8px;" onclick="deleteDayFromArchive('${date}')">Elimina</button>
                         </div>
                     </div>
-                    <div style="display:grid; grid-template-columns:1fr 1fr 1fr; font-size:12px; color:var(--text-muted); gap: 4px; margin-top:6px;">
-                        <div>🔥 Calorie: <strong style="color:var(--text-main);">${kcal.toFixed(0)}</strong></div>
-                        <div>💧 Acqua: <strong style="color:var(--text-main);">${data.water}ml</strong></div>
-                        <div>🌙 Sonno: <strong style="color:var(--text-main);">${sleepTime}</strong></div>
+                    <div style="display:grid; grid-template-columns:1fr 1fr 1fr; font-size:13px; color:var(--text-muted); gap: 4px; margin-top:6px; font-weight:600;">
+                        <div>Calorie: <strong style="color:var(--text-main);">${kcal.toFixed(0)}</strong></div>
+                        <div>Acqua: <strong style="color:var(--text-main);">${data.water}ml</strong></div>
+                        <div>Sonno: <strong style="color:var(--text-main);">${sleepTime}</strong></div>
                     </div>
                 </div>`;
         });
     }
 
+    function exportSingleDayTXT(date) {
+        let data = mainDatabase[date];
+        if(!data) return;
+
+        let kcal = data.foods.reduce((acc, f) => acc + (f.kcal * (f.weight/100)), 0);
+        let carb = data.foods.reduce((acc, f) => acc + (f.carb * (f.weight/100)), 0);
+        let prot = data.foods.reduce((acc, f) => acc + (f.prot * (f.weight/100)), 0);
+        let fat = data.foods.reduce((acc, f) => acc + (f.fat * (f.weight/100)), 0);
+        let fiber = data.foods.reduce((acc, f) => acc + ((f.fiber || 0) * (f.weight/100)), 0);
+
+        let txt = `========================================\n`;
+        txt += `FITTRACK PRO - REPORT DIARIO: ${date}\n`;
+        txt += `========================================\n\n`;
+        txt += `[RIEPILOGO NUTRIZIONALE]\n`;
+        txt += `- Calorie Totali: ${kcal.toFixed(0)} kcal\n`;
+        txt += `- Carboidrati: ${carb.toFixed(1)}g\n`;
+        txt += `- Proteine: ${prot.toFixed(1)}g\n`;
+        txt += `- Grassi: ${fat.toFixed(1)}g\n`;
+        txt += `- Fibre: ${fiber.toFixed(1)}g\n\n`;
+        txt += `[IDRATAZIONE & RIPOSO]\n`;
+        txt += `- Acqua Consumata: ${data.water} ml\n`;
+        txt += `- Ore di Sonno: ${data.sleep || "0h 0m"}\n\n`;
+        
+        txt += `[ALIMENTI DETTAGLIATI]\n`;
+        if(data.foods.length === 0) txt += `Nessun alimento registrato.\n`;
+        else {
+            data.foods.forEach(f => {
+                let fKcal = f.kcal * (f.weight/100);
+                txt += `* [${f.meal}] ${f.name} (${f.weight}g) -> ${fKcal.toFixed(0)} kcal (C:${((f.carb)*(f.weight/100)).toFixed(0)}g P:${((f.prot)*(f.weight/100)).toFixed(0)}g G:${((f.fat)*(f.weight/100)).toFixed(0)}g)\n`;
+            });
+        }
+        
+        txt += `\n[ALLENAMENTO PALESTRA]\n`;
+        if(data.sessions.length === 0) txt += `Nessuna sessione registrata.\n`;
+        else {
+            data.sessions.forEach((s, idx) => {
+                txt += `Sessione #${idx+1} (${s.duration} min):\n`;
+                s.exercises.forEach(ex => {
+                    txt += ex.isCardio ? `  - ${ex.name}: Vel:${ex.speed}km/h Inc:${ex.inc}% Tempo:${ex.time}min\n` : `  - ${ex.name}: ${ex.series}x${ex.reps} @ ${ex.weight}kg\n`;
+                });
+            });
+        }
+
+        const blob = new Blob([txt], { type: "text/plain" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `fittrack_log_${date}.txt`;
+        a.click();
+    }
+
     function selectDateFromArchive(date) {
         document.getElementById('global-date-picker').value = date;
         changeDate(date);
-        switchPage('page-food', document.querySelector('.nav-item')); 
+        switchPage('page-food', document.getElementById('default-nav-btn')); 
     }
 
     function deleteDayFromArchive(date) {
