@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FitTrack Pro - V.0.03c</title>
+    <style>
+        :root {
+            --bg-main: #121214;
+            --bg-card: #1c1c1e;
+            --bg-input: #2c2c2e;
+            --text-main: #f2f2f7;
+            --text-muted: #8e8e93;
+            --border: #2c2c2e;
+            --primary: #30d158;
+            --primary-blue: #0a84ff;
+            --primary-purple: #bf5af2;
+            --danger: #ff453a;
+            --shadow: rgba(0, 0, 0, 0.4);
+        }
+
+        * {
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Inter", "Segoe UI", sans-serif;
+            -webkit-tap-highlight-color: transparent;
+            letter-spacing: -0.2px;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .phone-wrapper {
+            width: 100%;
+            transition: max-width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            background-color: var(--bg-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            padding-bottom: 140px;
+        }
+
+        .layout-phone { max-width: 460px; }
+        .layout-pc { max-width: 850px; }
+
+        .app-container {
+            width: 100%;
+            padding: 24px 20px;
+        }
+
+        /* Top Bar */
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 28px;
+            background: var(--bg-card);
+            padding: 16px 20px;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            box-shadow: 0 8px 24px var(--shadow);
+        }
+
+        .top-bar h1 {
+            font-size: 22px;
+            font-weight: 800;
+            margin: 0;
+            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, #ffffff, #a1a1aa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .date-picker-wrapper input {
+            background: var(--bg-input);
+            border: none;
+            color: var(--text-main);
+            padding: 10px 14px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            outline: none;
+        }
+
+        /* Card Card */
+        .card {
+            background-color: var(--bg-card);
+            border-radius: 24px;
+            padding: 24px;
+            margin-bottom: 24px;
+            border: 1px solid var(--border);
+            box-shadow: 0 10px 30px var(--shadow);
+        }
+
+        h2 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-top: 0;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .form-group { margin-bottom: 18px; }
+
+        label {
+            display: block;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin-bottom: 8px;
+            color: var(--text-muted);
+            font-weight: 700;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 14px;
+            border-radius: 14px;
+            border: 1px solid var(--border);
+            background-color: var(--bg-input);
+            color: var(--text-main);
+            font-size: 15px;
+            font-weight: 500;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        input:focus, select:focus {
+            border-color: var(--primary-blue);
+        }
+
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            border-radius: 14px;
+            border: none;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.1s, opacity 0.2s;
+        }
+
+        button:active { transform: scale(0.97); }
+
+        .btn-primary { background: var(--primary); color: #000; }
+        .btn-blue { background: var(--primary-blue); color: #fff; }
+        .btn-purple { background: var(--primary-purple); color: #fff; }
+        .btn-danger-outline { background: transparent; border: 1px solid var(--danger); color: var(--danger); }
+        .btn-neutral-muted { background: #2c2c2e; color: var(--text-main); border: 1px solid var(--border); }
+
+        /* Progress Bars */
+        .progress-wrapper { margin: 20px 0 10px 0; }
+        .progress-container {
+            background-color: var(--bg-input);
+            border-radius: 8px;
+            height: 8px;
+            width: 100%;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background-color: var(--primary);
+            width: 0%;
+            transition: width 0.4s cubic-bezier(0.1, 0.8, 0.2, 1);
+        }
+
+        /* Dashboard Alimentare */
+        .macro-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
+            background: var(--bg-input);
+            padding: 14px;
+            border-radius: 16px;
+            text-align: center;
+            margin-bottom: 16px;
+        }
+        .macro-box span { display: block; font-size: 10px; color: var(--text-muted); font-weight: 700; text-transform: uppercase; margin-bottom: 4px; }
+        .macro-box strong { font-size: 15px; font-weight: 700; color: var(--text-main); }
+
+        /* Sotto-Sezioni Pasti */
+        .meal-section {
+            background: var(--bg-input);
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 16px;
+            border: 1px solid var(--border);
+        }
+        .meal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 700;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .list-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+            font-size: 14px;
+        }
+        .list-item:last-child { border-bottom: none; }
+        .list-item-meta { display: block; font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+        .action-icon { background: none; width: auto; padding: 4px 8px; color: var(--danger); font-size: 14px; font-weight: 400; }
+
+        /* Archivio */
+        .archive-item {
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+        .archive-header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        .archive-date { font-weight: 700; font-size: 14px; color: var(--primary); cursor: pointer; }
+
+        .muted-backup-box {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 16px;
+            margin-top: 20px;
+            font-size: 13px;
+        }
+
+        /* Labels e Switcher bassi */
+        .footer-labels-group {
+            position: absolute;
+            bottom: calc(85px + env(safe-area-inset-bottom));
+            width: calc(100% - 40px);
+            left: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            pointer-events: none;
+        }
+        .version-label { font-size: 11px; color: #48484a; font-weight: 700; }
+        .quick-layout-toggle {
+            font-size: 11px;
+            color: var(--primary-blue);
+            cursor: pointer;
+            pointer-events: auto;
+            background: none;
+            border: none;
+            width: auto;
+            padding: 0;
+            font-weight: 700;
+        }
+
+        /* Navigation Bar Inferiore */
+        .nav-bar {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: inherit;
+            background: rgba(28, 28, 30, 0.85);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            padding: 12px 0 calc(12px + env(safe-area-inset-bottom));
+            border-top: 1px solid var(--border);
+            z-index: 100;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #8e8e93;
+            font-size: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            gap: 5px;
+            background: none;
+            padding: 0;
+            width: auto;
+        }
+        .nav-item.active { color: var(--primary); }
+        .nav-item svg { width: 22px; height: 22px; fill: currentColor; }
+
+        .app-page { display: none; }
+        .app-page.active { display: block; }
+    </style>
+</head>
+<body>
+
+<div id="app-wrapper" class="phone-wrapper layout-phone">
+    <div class="app-container">
+        
+        <div class="top-bar">
+            <h1 id="app-logo">FitTrack</h1>
+            <div class="date-picker-wrapper">
+                <input type="date" id="global-date-picker" onchange="changeDate(this.value)">
+            </div>
+        </div>
+
+        <div id="page-food" class="app-page active">
+            <div class="card">
+                <h2>🍎 Riepilogo Nutrizionale</h2>
+                <div class="macro-grid">
+                    <div class="macro-box"><span>Kcal</span><strong id="total-kcal">0</strong></div>
+                    <div class="macro-box"><span>Carb</span><strong id="total-carb">0g</strong></div>
+                    <div class="macro-box"><span>Prot</span><strong id="total-prot">0g</strong></div>
+                    <div class="macro-box"><span>Gras</span><strong id="total-fat">0g</strong></div>
+                    <div class="macro-box"><span>Fibre</span><strong id="total-fiber">0g</strong></div>
+                </div>
+                <div class="progress-wrapper">
+                    <label>Fabbisogno Energetico (<span id="lbl-target-kcal">2000</span> Kcal)</label>
+                    <div class="progress-container"><div id="kcal-progress" class="progress-fill"></div></div>
+                </div>
+                <button class="btn-primary" style="font-size: 13px; padding: 10px;" onclick="forceSaveCurrentDay()">💾 Memorizza giornata in Archivio</button>
+            </div>
+
+            <div class="card">
+                <h2>➕ Inserisci Alimento</h2>
+                <div class="form-group">
+                    <label>Seleziona Pasto</label>
+                    <select id="food-meal">
+                        <option value="Colazione">Colazione</option>
+                        <option value="Pranzo">Pranzo</option>
+                        <option value="Cena">Cena</option>
+                        <option value="Snack">Snacks / Altro</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Nome Cibo</label>
+                    <input type="text" id="food-name" placeholder="Es. Pasta, fagiolini, mela">
+                </div>
+                <div class="grid-2 form-group">
+                    <div><label>Peso usato (g)</label><input type="number" id="food-weight" placeholder="100"></div>
+                    <div><label>Kcal (su 100g)</label><input type="number" id="food-kcal" placeholder="350"></div>
+                </div>
+                <div class="grid-2 form-group">
+                    <div><label>Carboidrati (100g)</label><input type="number" id="food-carb" placeholder="70"></div>
+                    <div><label>Proteine (100g)</label><input type="number" id="food-prot" placeholder="12"></div>
+                </div>
+                <div class="grid-2 form-group">
+                    <div><label>Grassi (100g)</label><input type="number" id="food-fat" placeholder="2"></div>
+                    <div><label>Fibre (100g)</label><input type="number" id="food-fiber" placeholder="3"></div>
+                </div>
+                <button class="btn-primary" onclick="addFood()">Aggiungi nel Diario</button>
+            </div>
+
+            <div class="card">
+                <h2>🍽️ Distribuzione dei Pasti</h2>
+                <div class="meal-section" id="meal-Colazione">
+                    <div class="meal-header"><span style="color:#ff9f0a;">☕ Colazione</span><span class="meal-kcal" id="kcal-Colazione">0 kcal</span></div>
+                    <div class="item-list" id="list-Colazione"></div>
+                </div>
+                <div class="meal-section" id="meal-Pranzo">
+                    <div class="meal-header"><span style="color:#0a84ff;">🍝 Pranzo</span><span class="meal-kcal" id="kcal-Pranzo">0 kcal</span></div>
+                    <div class="item-list" id="list-Pranzo"></div>
+                </div>
+                <div class="meal-section" id="meal-Cena">
+                    <div class="meal-header"><span style="color:#30d158;">🥩 Cena</span><span class="meal-kcal" id="kcal-Cena">0 kcal</span></div>
+                    <div class="item-list" id="list-Cena"></div>
+                </div>
+                <div class="meal-section" id="meal-Snack">
+                    <div class="meal-header"><span style="color:#64d2ff;">🍿 Snacks / Altro</span><span class="meal-kcal" id="kcal-Snack">0 kcal</span></div>
+                    <div class="item-list" id="list-Snack"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="page-gym" class="app-page">
+            <div class="card">
+                <h2>🏋️ Registro Allenamento</h2>
+                <div class="form-group">
+                    <label>Durata Totale Sessione (Minuti)</label>
+                    <input type="number" id="session-duration" placeholder="60">
+                </div>
+                
+                <div style="background: var(--bg-input); padding: 16px; border-radius: 16px; margin-bottom: 16px; border: 1px solid var(--border);">
+                    <label>Esercizio Base</label>
+                    <select id="workout-name" onchange="toggleGymFields(this.value)" style="margin-bottom:12px;">
+                        <optgroup label="Esercizi con Bilanciere">
+                            <option value="Squat">Squat</option>
+                            <option value="Panca Piana">Panca Piana</option>
+                            <option value="Military Press">Military Press</option>
+                            <option value="Stacco da Terra">Stacco da Terra</option>
+                        </optgroup>
+                        <optgroup label="Esercizi con Manubri">
+                            <option value="Spinte con Manubri">Spinte con Manubri</option>
+                            <option value="Croci con Manubri">Croci con Manubri</option>
+                            <option value="Alzate Laterali">Alzate Laterali</option>
+                            <option value="Curl con Manubri">Curl con Manubri</option>
+                            <option value="Affondi con Manubri">Affondi con Manubri</option>
+                        </optgroup>
+                        <optgroup label="Esercizi ai Cavi">
+                            <option value="Croci ai Cavi">Croci ai Cavi</option>
+                            <option value="Pushdown Cavi">Pushdown Cavi</option>
+                            <option value="Pulley Basso">Pulley Basso</option>
+                            <option value="Lat Machine">Lat Machine</option>
+                        </optgroup>
+                        <optgroup label="Esercizi a Macchinari">
+                            <option value="Leg Press">Leg Press</option>
+                            <option value="Leg Extension">Leg Extension</option>
+                            <option value="Leg Curl">Leg Curl</option>
+                            <option value="Chest Press">Chest Press</option>
+                            <option value="Calf Machine">Calf Machine</option>
+                        </optgroup>
+                        <optgroup label="Corpo Libero">
+                            <option value="Trazioni">Trazioni</option>
+                            <option value="Dips">Dips</option>
+                            <option value="Piegamenti">Piegamenti</option>
+                            <option value="Crunch Addominali">Crunch Addominali</option>
+                        </optgroup>
+                        <optgroup label="Attività Cardio">
+                            <option value="Tapis Roulant (Cardio)">Tapis Roulant (Cardio)</option>
+                            <option value="Cyclette (Cardio)">Cyclette (Cardio)</option>
+                            <option value="Ellittica (Cardio)">Ellittica (Cardio)</option>
+                        </optgroup>
+                    </select>
+
+                    <div id="fields-weights">
+                        <div class="grid-3">
+                            <div><label>Serie</label><input type="number" id="workout-series" placeholder="3"></div>
+                            <div><label>Reps</label><input type="number" id="workout-reps" placeholder="10"></div>
+                            <div><label>Kg</label><input type="number" id="workout-weight" placeholder="40"></div>
+                        </div>
+                    </div>
+
+                    <div id="fields-cardio" style="display: none;">
+                        <div class="grid-3">
+                            <div><label>Vel (km/h)</label><input type="number" id="cardio-speed" placeholder="6.0" step="0.1"></div>
+                            <div><label>Inc (%)</label><input type="number" id="cardio-inc" placeholder="2"></div>
+                            <div><label>Minuti</label><input type="number" id="cardio-time" placeholder="15"></div>
+                        </div>
+                    </div>
+                    
+                    <button class="btn-blue" style="margin-top: 14px; padding: 10px; font-size:13px;" onclick="addExerciseToTempList()">Inserisci Esercizio</button>
+                </div>
+
+                <label>Esercizi pronti da salvare:</label>
+                <div id="temp-exercise-list" style="margin-bottom: 16px;"></div>
+                <button class="btn-primary" onclick="saveCompleteSession()">Salva Sessione Completa</button>
+            </div>
+
+            <div class="card">
+                <h2>📋 Sessioni Svolte Oggi</h2>
+                <div id="saved-sessions-list"></div>
+            </div>
+        </div>
+
+        <div id="page-lifestyle" class="app-page">
+            <div class="card">
+                <h2>💧 Idratazione Quotidiana</h2>
+                <h3 style="margin-top:0; margin-bottom: 8px; font-size: 20px;"><span id="water-total">0</span> ml / <span id="lbl-target-water">2500</span> ml</h3>
+                <div class="progress-container" style="height: 10px; margin-bottom: 20px;">
+                    <div id="water-progress" class="progress-fill" style="background-color: var(--primary-blue);"></div>
+                </div>
+
+                <div class="grid-2">
+                    <button class="btn-blue" style="padding:12px; font-size:14px;" onclick="modifyWater(250)">+250 ml</button>
+                    <button class="btn-blue" style="padding:12px; font-size:14px;" onclick="modifyWater(500)">+500 ml</button>
+                </div>
+                <div class="grid-2" style="margin-top: 10px;">
+                    <button class="btn-danger-outline" style="padding:12px; font-size:14px;" onclick="modifyWater(-250)">-250 ml</button>
+                    <button class="btn-danger-outline" style="padding:12px; font-size:14px;" onclick="modifyWater(-500)">-500 ml</button>
+                </div>
+
+                <div class="form-group" style="margin-top:20px;">
+                    <label>Modifica Manuale Precisa (ml)</label>
+                    <div style="display:flex; gap:10px;">
+                        <input type="number" id="water-custom" placeholder="330">
+                        <button class="btn-blue" style="width:auto; padding:0 20px;" onclick="addCustomWater(true)">+</button>
+                        <button class="btn-danger-outline" style="width:auto; padding:0 20px;" onclick="addCustomWater(false)">-</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>🌙 Tracciamento Riposo</h2>
+                <h3 style="margin-top: 0; margin-bottom: 20px; font-size: 20px;">Ore Totali: <span id="sleep-total" style="color:var(--primary-purple);">0h 0m</span></h3>
+                <div class="grid-2 form-group">
+                    <div><label>Addormentato</label><input type="time" id="sleep-bed"></div>
+                    <div><label>Sveglia</label><input type="time" id="sleep-wake"></div>
+                </div>
+                <button class="btn-purple" onclick="saveSleep()">Registra Finestra Sonno</button>
+            </div>
+        </div>
+
+        <div id="page-archive" class="app-page">
+            <div class="card">
+                <h2>🗄️ Storico Salvataggi</h2>
+                <div id="archive-container"></div>
+            </div>
+
+            <div class="muted-backup-box">
+                <span style="font-weight: 700; display: block; margin-bottom: 8px; color:var(--text-main); font-size:12px; text-transform:uppercase; letter-spacing:0.5px;">Gestione Backup</span>
+                <button class="btn-neutral-muted" style="font-size:12px; padding:8px; margin-bottom:10px;" onclick="exportDatabaseToHTML()">Esporta File HTML</button>
+                <input type="file" id="import-file-input" accept=".html" style="font-size:12px; padding:6px; background:transparent; border:none;" onchange="importDatabaseFromHTML(this)">
+            </div>
+        </div>
+
+        <div id="page-settings" class="app-page">
+            <div class="card">
+                <h2>⚙️ Impostazioni Traguardi</h2>
+                <div class="form-group">
+                    <label>Target Calorie Giornaliere (Kcal)</label>
+                    <input type="number" id="set-target-kcal" value="2000" onchange="updateTargetsFromSettings()">
+                </div>
+                <div class="form-group">
+                    <label>Target Acqua Giornaliera (ml)</label>
+                    <input type="number" id="set-target-water" value="2500" onchange="updateTargetsFromSettings()">
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>🖥️ Interfaccia e Schermo</h2>
+                <label>Seleziona Layout Dispositivo</label>
+                <select id="set-layout-select" onchange="setLayout(this.value)">
+                    <option value="phone">Telefono (Compatto / Centrato)</option>
+                    <option value="pc">PC / Tablet (Largo)</option>
+                </select>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="footer-labels-group">
+        <div class="version-label">V.0.03c</div>
+        <button class="quick-layout-toggle" onclick="toggleQuickLayout()">Cambia Layout Vista</button>
+    </div>
+
+    <nav class="nav-bar">
+        <button class="nav-item active" onclick="switchPage('page-food', this)">
+            <svg viewBox="0 0 24 24"><path d="M12 2c-5.52 0-10 4.48-10 10s4.48 10 10 10 10-4.48 10-10-4.48-10-10-10zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg>
+            Diario
+        </button>
+        <button class="nav-item" onclick="switchPage('page-gym', this)">
+            <svg viewBox="0 0 24 24"><path d="M20.57 14.86l-2.7-2.7 3.4-3.4c.78-.78.78-2.05 0-2.83l-1.41-1.41c-.78-.78-2.05-.78-2.83 0l-3.4 3.4-2.7-2.7c-.78-.78-2.05-.78-2.83 0l-1.41 1.41c-.78.78-.78 2.05 0 2.83l2.7 2.7-3.4 3.4c-.78.78-.78 2.05 0 2.83l1.41 1.41c.78.78 2.05.78 2.83 0l3.4-3.4 2.7 2.7c.78.78 2.05.78 2.83 0l1.41-1.41c.78-.79.78-2.05 0-2.83z"/></svg>
+            Palestra
+        </button>
+        <button class="nav-item" onclick="switchPage('page-lifestyle', this)">
+            <svg viewBox="0 0 24 24"><path d="M12 2c-5.33 4.55-8 8.41-8 11.58 0 4.79 3.49 8.42 8 8.42s8-3.63 8-8.42c0-3.17-2.67-7.03-8-11.58zm0 18c-3.3 0-6-2.52-6-6.42 0-2.32 2.02-5.46 6-9.04 3.97 3.58 6 6.71 6 9.04 0 3.9-2.7 6.42-6 6.42z"/></svg>
+            Salute
+        </button>
+        <button class="nav-item" onclick="switchPage('page-archive', this)">
+            <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zm-8-2h6v-2h-6v2zm0-4h6v-2h-6v2zm0-4h6V7h-6v2z"/></svg>
+            Archivio
+        </button>
+        <button class="nav-item" onclick="switchPage('page-settings', this)">
+            <svg viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.3c.06-.61.06-1.23 0-1.53l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.4-1.08-.73-1.69-.98l-.38-2.65C14.17 2.11 13.95 2 13.71 2h-4c-.24 0-.46.11-.5.34L8.83 5c-.61.25-1.17.59-1.69.98l-2.49-1c-.23-.09-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64l2.11 1.65c-.04.3-.06.62-.06.15s.02.62.06.15l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1c.52.4 1.08.73 1.69.98l.38 2.65c.03.24.25.34.5.34h4c.24 0 .46-.11.5-.34l.38-2.65c.61-.25 1.17-.59 1.69-.98l2.49 1c.23.09.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65zM12 15.5c-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5z"/></svg>
+            Impostazioni
+        </button>
+    </nav>
+</div>
+
+<script>
+    let currentDate = new Date().toISOString().split('T')[0];
+    document.getElementById('global-date-picker').value = currentDate;
+
+    let userTargets = JSON.parse(localStorage.getItem('fitTrackTargets')) || { kcal: 2000, water: 2500, layout: 'phone' };
+    let mainDatabase = JSON.parse(localStorage.getItem('fitTrackDatabase_v3')) || {};
+    let tempExercises = [];
+
+    document.getElementById('set-target-kcal').value = userTargets.kcal;
+    document.getElementById('set-target-water').value = userTargets.water;
+    document.getElementById('set-layout-select').value = userTargets.layout;
+
+    function applyTargetLabels() {
+        document.getElementById('lbl-target-kcal').innerText = userTargets.kcal;
+        document.getElementById('lbl-target-water').innerText = userTargets.water;
+    }
+
+    function getDayData(date) {
+        if (!mainDatabase[date]) {
+            mainDatabase[date] = { foods: [], water: 0, sessions: [], sleep: "0h 0m" };
+        }
+        return mainDatabase[date];
+    }
+
+    function saveToLocalStorage() {
+        localStorage.setItem('fitTrackDatabase_v3', JSON.stringify(mainDatabase));
+        updateUI();
+    }
+
+    function changeDate(newDate) {
+        if(newDate) { currentDate = newDate; updateUI(); }
+    }
+
+    function forceSaveCurrentDay() {
+        getDayData(currentDate); 
+        saveToLocalStorage();
+        alert(`Giornata del ${formatDateItalian(currentDate)} memorizzata stabilmente in Archivio!`);
+    }
+
+    function switchPage(pageId, navElement) {
+        document.querySelectorAll('.app-page').forEach(p => p.classList.remove('active'));
+        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+        document.getElementById(pageId).classList.add('active');
+        navElement.classList.add('active');
+        if(pageId === 'page-archive') updateArchiveList();
+    }
+
+    function setLayout(type) {
+        const wrapper = document.getElementById('app-wrapper');
+        userTargets.layout = type;
+        localStorage.setItem('fitTrackTargets', JSON.stringify(userTargets));
+        document.getElementById('set-layout-select').value = type;
+        
+        if(type === 'pc') {
+            wrapper.classList.remove('layout-phone');
+            wrapper.classList.add('layout-pc');
+        } else {
+            wrapper.classList.remove('layout-pc');
+            wrapper.classList.add('layout-phone');
+        }
+    }
+
+    function toggleQuickLayout() {
+        let nextLayout = userTargets.layout === 'phone' ? 'pc' : 'phone';
+        setLayout(nextLayout);
+    }
+
+    function updateTargetsFromSettings() {
+        userTargets.kcal = parseInt(document.getElementById('set-target-kcal').value) || 2000;
+        userTargets.water = parseInt(document.getElementById('set-target-water').value) || 2500;
+        localStorage.setItem('fitTrackTargets', JSON.stringify(userTargets));
+        applyTargetLabels();
+        updateUI();
+    }
+
+    function toggleGymFields(val) {
+        const isCardio = val.includes("(Cardio)");
+        document.getElementById('fields-weights').style.display = isCardio ? 'none' : 'block';
+        document.getElementById('fields-cardio').style.display = isCardio ? 'block' : 'none';
+    }
+
+    function addFood() {
+        let day = getDayData(currentDate);
+        const meal = document.getElementById('food-meal').value;
+        const name = document.getElementById('food-name').value || "Cibo";
+        const weight = parseFloat(document.getElementById('food-weight').value) || 0;
+        const kcal = parseFloat(document.getElementById('food-kcal').value) || 0;
+        const carb = parseFloat(document.getElementById('food-carb').value) || 0;
+        const prot = parseFloat(document.getElementById('food-prot').value) || 0;
+        const fat = parseFloat(document.getElementById('food-fat').value) || 0;
+        const fiber = parseFloat(document.getElementById('food-fiber').value) || 0;
+
+        if (weight > 0) {
+            day.foods.push({ meal, name, weight, kcal, carb, prot, fat, fiber });
+            document.getElementById('food-name').value = '';
+            document.getElementById('food-weight').value = '';
+            saveToLocalStorage();
+        }
+    }
+
+    function deleteFood(index) {
+        let day = getDayData(currentDate);
+        day.foods.splice(index, 1);
+        saveToLocalStorage();
+    }
+
+    function modifyWater(amount) {
+        let day = getDayData(currentDate);
+        day.water = Math.max(0, day.water + amount);
+        saveToLocalStorage();
+    }
+
+    function addCustomWater(isPositive) {
+        let input = document.getElementById('water-custom');
+        let val = parseInt(input.value) || 0;
+        if(val > 0) { modifyWater(isPositive ? val : -val); input.value = ''; }
+    }
+
+    function addExerciseToTempList() {
+        const name = document.getElementById('workout-name').value;
+        const isCardio = name.includes("(Cardio)");
+        let exerciseData = { name, isCardio };
+
+        if(isCardio) {
+            exerciseData.speed = document.getElementById('cardio-speed').value || "0";
+            exerciseData.inc = document.getElementById('cardio-inc').value || "0";
+            exerciseData.time = document.getElementById('cardio-time').value || "0";
+        } else {
+            exerciseData.series = document.getElementById('workout-series').value || "0";
+            exerciseData.reps = document.getElementById('workout-reps').value || "0";
+            exerciseData.weight = document.getElementById('workout-weight').value || "0";
+        }
+
+        tempExercises.push(exerciseData);
+        renderTempExercises();
+    }
+
+    function renderTempExercises() {
+        const container = document.getElementById('temp-exercise-list');
+        container.innerHTML = '';
+        tempExercises.forEach((ex, idx) => {
+            container.innerHTML += `
+                <div class="list-item" style="background:rgba(255,255,255,0.02); padding:6px 10px; border-radius:8px; margin-bottom:4px;">
+                    <div>
+                        <strong>${ex.name}</strong><br>
+                        <span class="list-item-meta">${ex.isCardio ? `Vel: ${ex.speed}km/h | Inc: ${ex.inc}% | ${ex.time} min` : `${ex.series}x${ex.reps} @ ${ex.weight}kg`}</span>
+                    </div>
+                    <button class="delete-btn action-icon" onclick="removeTempExercise(${idx})">✕</button>
+                </div>`;
+        });
+    }
+
+    function removeTempExercise(idx) {
+        tempExercises.splice(idx, 1);
+        renderTempExercises();
+    }
+
+    function saveCompleteSession() {
+        let day = getDayData(currentDate);
+        let duration = document.getElementById('session-duration').value || "0";
+        if(tempExercises.length > 0) {
+            day.sessions.push({ duration: duration, exercises: [...tempExercises] });
+            tempExercises = [];
+            document.getElementById('session-duration').value = '';
+            document.getElementById('temp-exercise-list').innerHTML = '';
+            saveToLocalStorage();
+        }
+    }
+
+    function deleteSession(idx) {
+        let day = getDayData(currentDate);
+        day.sessions.splice(idx, 1);
+        saveToLocalStorage();
+    }
+
+    function saveSleep() {
+        let day = getDayData(currentDate);
+        const bed = document.getElementById('sleep-bed').value;
+        const wake = document.getElementById('sleep-wake').value;
+        if (bed && wake) {
+            let [bH, bM] = bed.split(':').map(Number);
+            let [wH, wM] = wake.split(':').map(Number);
+            let diff = (wH * 60 + wM) - (bH * 60 + bM);
+            if (diff < 0) diff += 24 * 60;
+            day.sleep = `${Math.floor(diff/60)}h ${diff%60}m`;
+            saveToLocalStorage();
+        }
+    }
+
+    function updateUI() {
+        let day = getDayData(currentDate);
+        let tKcal = 0, tCarb = 0, tProt = 0, tFat = 0, tFiber = 0;
+        let mealTotals = { Colazione: 0, Pranzo: 0, Cena: 0, Snack: 0 };
+        
+        ['Colazione', 'Pranzo', 'Cena', 'Snack'].forEach(m => document.getElementById(`list-${m}`).innerHTML = '');
+
+        day.foods.forEach((food, index) => {
+            let factor = food.weight / 100;
+            let k = food.kcal * factor;
+            let c = food.carb * factor;
+            let p = food.prot * factor;
+            let f = food.fat * factor;
+            let fib = (food.fiber || 0) * factor;
+
+            tKcal += k; tCarb += c; tProt += p; tFat += f; tFiber += fib;
+            mealTotals[food.meal] += k;
+
+            document.getElementById(`list-${food.meal}`).innerHTML += `
+                <div class="list-item">
+                    <div>
+                        <strong>${food.name} (${food.weight}g)</strong>
+                        <span class="list-item-meta">C: ${c.toFixed(0)}g | P: ${p.toFixed(0)}g | G: ${f.toFixed(0)}g | Fib: ${fib.toFixed(1)}g</span>
+                    </div>
+                    <div style="display:flex; align-items:center;">
+                        <strong style="margin-right:4px;">${k.toFixed(0)} kcal</strong>
+                        <button class="action-icon" onclick="deleteFood(${index})">✕</button>
+                    </div>
+                </div>`;
+        });
+
+        document.getElementById('total-kcal').innerText = tKcal.toFixed(0);
+        document.getElementById('total-carb').innerText = tCarb.toFixed(0) + 'g';
+        document.getElementById('total-prot').innerText = tProt.toFixed(0) + 'g';
+        document.getElementById('total-fat').innerText = tFat.toFixed(0) + 'g';
+        document.getElementById('total-fiber').innerText = tFiber.toFixed(1) + 'g';
+
+        for(let m in mealTotals) {
+            document.getElementById(`kcal-${m}`).innerText = mealTotals[m].toFixed(0) + ' kcal';
+        }
+        
+        document.getElementById('kcal-progress').style.width = Math.min((tKcal / userTargets.kcal) * 100, 100) + '%';
+        document.getElementById('water-total').innerText = day.water;
+        document.getElementById('water-progress').style.width = Math.min((day.water / userTargets.water) * 100, 100) + '%';
+        document.getElementById('sleep-total').innerText = day.sleep || "0h 0m";
+
+        const sList = document.getElementById('saved-sessions-list');
+        sList.innerHTML = '';
+        day.sessions.forEach((session, sIdx) => {
+            let exercisesHtml = session.exercises.map(ex => `
+                <li style="margin-bottom:4px;">
+                    ${ex.name}: ${ex.isCardio ? `${ex.speed}km/h - Inc.${ex.inc}% (${ex.time} min)` : `${ex.series}x${ex.reps} @ ${ex.weight}kg`}
+                </li>
+            `).join('');
+
+            sList.innerHTML += `
+                <div style="background:var(--bg-input); padding:14px; border-radius:16px; margin-bottom:12px; border:1px solid var(--border);">
+                    <div style="display:flex; justify-content:between; align-items:center; margin-bottom:6px;">
+                        <span style="font-weight:700; color:var(--primary-blue); font-size:13px;">⏱️ Sessione Palestra (${session.duration} min)</span>
+                        <button class="action-icon" style="margin-left:auto; font-size:12px;" onclick="deleteSession(${sIdx})">Rimuovi</button>
+                    </div>
+                    <ul style="margin:0; padding-left:18px; font-size:12px; color:var(--text-muted);">${exercisesHtml}</ul>
+                </div>`;
+        });
+    }
+
+    function updateArchiveList() {
+        const container = document.getElementById('archive-container');
+        container.innerHTML = '';
+        let sortedDates = Object.keys(mainDatabase).sort((a,b) => new Date(b) - new Date(a));
+        
+        if(sortedDates.length === 0) {
+            container.innerHTML = '<p style="color:var(--text-muted); font-size:13px;">Archivio vuoto.</p>';
+            return;
+        }
+
+        sortedDates.forEach(date => {
+            let data = mainDatabase[date];
+            let kcal = data.foods.reduce((acc, f) => acc + (f.kcal * (f.weight/100)), 0);
+            let sleepTime = data.sleep || "0h 0m";
+
+            container.innerHTML += `
+                <div class="archive-item">
+                    <div class="archive-header-row">
+                        <div class="archive-date" onclick="selectDateFromArchive('${date}')">📅 ${formatDateItalian(date)}</div>
+                        <div style="display:flex; gap: 8px;">
+                            <button class="btn-blue" style="padding: 4px 10px; font-size: 12px; width: auto; border-radius:8px;" onclick="selectDateFromArchive('${date}')">Carica</button>
+                            <button class="btn-danger-outline" style="padding: 4px 10px; font-size: 12px; width: auto; border-radius:8px;" onclick="deleteDayFromArchive('${date}')">Elimina</button>
+                        </div>
+                    </div>
+                    <div style="display:grid; grid-template-columns:1fr 1fr 1fr; font-size:12px; color:var(--text-muted); gap: 4px; margin-top:6px;">
+                        <div>🔥 Calorie: <strong style="color:var(--text-main);">${kcal.toFixed(0)}</strong></div>
+                        <div>💧 Acqua: <strong style="color:var(--text-main);">${data.water}ml</strong></div>
+                        <div>🌙 Sonno: <strong style="color:var(--text-main);">${sleepTime}</strong></div>
+                    </div>
+                </div>`;
+        });
+    }
+
+    function selectDateFromArchive(date) {
+        document.getElementById('global-date-picker').value = date;
+        changeDate(date);
+        switchPage('page-food', document.querySelector('.nav-item')); 
+    }
+
+    function deleteDayFromArchive(date) {
+        if(confirm(`Eliminare completamente la giornata del ${formatDateItalian(date)}?`)) {
+            delete mainDatabase[date];
+            saveToLocalStorage();
+            updateArchiveList();
+        }
+    }
+
+    function formatDateItalian(dateString) {
+        return new Date(dateString).toLocaleDateString('it-IT', { year: 'numeric', month: 'long', day: 'numeric' });
+    }
+
+    function exportDatabaseToHTML() {
+        const dataStr = JSON.stringify(mainDatabase);
+        const htmlContent = `<!DOCTYPE html><html><head><title>FitTrack Backup</title></head><body><script id="fittrack-backup-json" type="application/json">${dataStr}<\/script></body></html>`;
+        const blob = new Blob([htmlContent], { type: "text/html" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `backup_fittrack_${currentDate}.html`;
+        a.click();
+    }
+
+    function importDatabaseFromHTML(inputElement) {
+        const file = inputElement.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            try {
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(e.target.result, "text/html");
+                const jsonScript = doc.getElementById("fittrack-backup-json").textContent;
+                const parsedData = JSON.parse(jsonScript);
+                if (parsedData && typeof parsedData === "object") {
+                    mainDatabase = Object.assign({}, mainDatabase, parsedData);
+                    saveToLocalStorage();
+                    alert("Importazione completata con successo!");
+                }
+            } catch (err) { alert("File non valido."); }
+        };
+        reader.readAsText(file);
+    }
+
+    setLayout(userTargets.layout);
+    applyTargetLabels();
+    updateUI();
+</script>
+</body>
+</html>
