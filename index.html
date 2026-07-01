@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FitTrack Pro - V.0.04a</title>
+    <title>FitTrack Pro - V.0.04b</title>
     <style>
         :root {
             --bg-main: #121214;
@@ -23,7 +23,7 @@
             box-sizing: border-box;
             font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", "Segoe UI", sans-serif;
             -webkit-tap-highlight-color: transparent;
-            letter-spacing: -0.2px;
+            letter-spacing: -0.1px;
         }
 
         body {
@@ -47,12 +47,12 @@
             padding-bottom: 140px;
         }
 
-        .layout-phone { max-width: 460px; }
+        .layout-phone { max-width: 440px; }
         .layout-pc { max-width: 850px; }
 
         .app-container {
             width: 100%;
-            padding: 24px 20px;
+            padding: 20px 16px;
         }
 
         /* Splash Screen Modal */
@@ -67,30 +67,30 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 30px;
+            padding: 24px;
         }
         .splash-content {
             background: var(--bg-card);
-            border: 1px solid var(--border);
-            padding: 32px 24px;
-            border-radius: 28px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            padding: 28px 20px;
+            border-radius: 24px;
             text-align: center;
-            max-width: 400px;
+            max-width: 380px;
             box-shadow: 0 20px 40px var(--shadow);
         }
         .splash-title {
-            font-size: 26px;
-            font-weight: 900;
-            margin-bottom: 16px;
+            font-size: 24px;
+            font-weight: 800;
+            margin-bottom: 14px;
             background: linear-gradient(135deg, #ffffff, #a1a1aa);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
         .splash-text {
-            font-size: 14px;
+            font-size: 13px;
             color: var(--text-muted);
-            line-height: 1.6;
-            margin-bottom: 24px;
+            line-height: 1.5;
+            margin-bottom: 22px;
             font-weight: 600;
         }
 
@@ -99,19 +99,19 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 28px;
+            margin-bottom: 20px;
             background: var(--bg-card);
-            padding: 16px 20px;
-            border-radius: 20px;
+            padding: 14px 18px;
+            border-radius: 18px;
             border: 1px solid var(--border);
             box-shadow: 0 8px 24px var(--shadow);
         }
 
         .top-bar h1 {
-            font-size: 24px;
-            font-weight: 900;
+            font-size: 22px;
+            font-weight: 800;
             margin: 0;
-            letter-spacing: -0.5px;
+            letter-spacing: -0.4px;
             background: linear-gradient(135deg, #ffffff, #a1a1aa);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -121,9 +121,9 @@
             background: var(--bg-input);
             border: none;
             color: var(--text-main);
-            padding: 10px 14px;
-            border-radius: 12px;
-            font-size: 14px;
+            padding: 8px 12px;
+            border-radius: 10px;
+            font-size: 13px;
             font-weight: 700;
             outline: none;
         }
@@ -131,43 +131,43 @@
         /* Card Setup */
         .card {
             background-color: var(--bg-card);
-            border-radius: 24px;
-            padding: 24px;
-            margin-bottom: 24px;
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 20px;
             border: 1px solid var(--border);
             box-shadow: 0 10px 30px var(--shadow);
         }
 
         h2 {
-            font-size: 20px;
+            font-size: 18px;
             font-weight: 800;
             margin-top: 0;
-            margin-bottom: 20px;
+            margin-bottom: 16px;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
         }
 
-        .form-group { margin-bottom: 18px; }
+        .form-group { margin-bottom: 14px; }
 
         label {
             display: block;
-            font-size: 12px;
+            font-size: 11px;
             text-transform: uppercase;
-            letter-spacing: 0.8px;
-            margin-bottom: 8px;
+            letter-spacing: 0.6px;
+            margin-bottom: 6px;
             color: var(--text-muted);
-            font-weight: 800;
+            font-weight: 700;
         }
 
         input, select {
             width: 100%;
-            padding: 14px;
-            border-radius: 14px;
+            padding: 12px;
+            border-radius: 12px;
             border: 1px solid var(--border);
             background-color: var(--bg-input);
             color: var(--text-main);
-            font-size: 15px;
+            font-size: 14px;
             font-weight: 700;
             outline: none;
             transition: border-color 0.2s;
@@ -177,34 +177,42 @@
             border-color: var(--primary-blue);
         }
 
-        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+        /* Correzione Frecce Input Numeri (Spinner Style Fix) */
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+            opacity: 0.3;
+            background: transparent;
+            cursor: pointer;
+        }
+
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
 
         button {
             width: 100%;
-            padding: 14px;
-            border-radius: 14px;
+            padding: 12px;
+            border-radius: 12px;
             border: none;
-            font-size: 15px;
-            font-weight: 800;
+            font-size: 14px;
+            font-weight: 700;
             cursor: pointer;
             transition: transform 0.1s, opacity 0.2s;
         }
 
-        button:active { transform: scale(0.97); }
+        button:active { transform: scale(0.98); }
 
-        .btn-primary { background: var(--primary); color: #000; }
+        .btn-primary { background: var(--primary); color: #fff; }
         .btn-blue { background: var(--primary-blue); color: #fff; }
         .btn-purple { background: var(--primary-purple); color: #fff; }
         .btn-danger-outline { background: transparent; border: 1px solid var(--danger); color: var(--danger); }
         .btn-neutral-muted { background: #2c2c2e; color: var(--text-main); border: 1px solid var(--border); }
 
         /* Progress Bars */
-        .progress-wrapper { margin: 20px 0 10px 0; }
+        .progress-wrapper { margin: 16px 0 8px 0; }
         .progress-container {
             background-color: var(--bg-input);
-            border-radius: 8px;
-            height: 10px;
+            border-radius: 6px;
+            height: 8px;
             width: 100%;
             overflow: hidden;
         }
@@ -219,72 +227,72 @@
         .macro-grid {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
-            gap: 8px;
+            gap: 6px;
             background: var(--bg-input);
-            padding: 14px;
-            border-radius: 16px;
+            padding: 12px;
+            border-radius: 14px;
             text-align: center;
-            margin-bottom: 16px;
+            margin-bottom: 14px;
         }
-        .macro-box span { display: block; font-size: 11px; color: var(--text-muted); font-weight: 800; text-transform: uppercase; margin-bottom: 4px; }
-        .macro-box strong { font-size: 16px; font-weight: 900; color: var(--text-main); }
+        .macro-box span { display: block; font-size: 10px; color: var(--text-muted); font-weight: 700; text-transform: uppercase; margin-bottom: 2px; }
+        .macro-box strong { font-size: 14px; font-weight: 800; color: var(--text-main); }
 
         /* Sotto-Sezioni Pasti */
         .meal-section {
             background: var(--bg-input);
-            border-radius: 16px;
-            padding: 16px;
-            margin-bottom: 16px;
+            border-radius: 14px;
+            padding: 14px;
+            margin-bottom: 14px;
             border: 1px solid var(--border);
         }
         .meal-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-weight: 800;
-            font-size: 15px;
-            margin-bottom: 8px;
+            font-weight: 700;
+            font-size: 14px;
+            margin-bottom: 6px;
         }
 
         .list-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 12px 0;
+            padding: 10px 0;
             border-bottom: 1px solid rgba(255,255,255,0.04);
-            font-size: 15px;
+            font-size: 14px;
         }
         .list-item:last-child { border-bottom: none; }
         .list-item strong { font-weight: 700; }
-        .list-item-meta { display: block; font-size: 13px; color: var(--text-muted); margin-top: 4px; font-weight: 600; }
-        .action-icon { background: none; width: auto; padding: 4px 8px; color: var(--danger); font-size: 15px; font-weight: 700; }
+        .list-item-meta { display: block; font-size: 12px; color: var(--text-muted); margin-top: 2px; font-weight: 600; }
+        .action-icon { background: none; width: auto; padding: 2px 6px; color: var(--danger); font-size: 14px; font-weight: 700; }
 
         /* Archivio */
         .archive-item {
             background: var(--bg-input);
             border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 16px;
-            margin-bottom: 12px;
+            border-radius: 14px;
+            padding: 14px;
+            margin-bottom: 10px;
         }
-        .archive-header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-        .archive-date { font-weight: 800; font-size: 15px; color: var(--primary); cursor: pointer; }
+        .archive-header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+        .archive-date { font-weight: 700; font-size: 14px; color: var(--primary); cursor: pointer; }
 
         .muted-backup-box {
             background: var(--bg-card);
             border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 16px;
-            margin-top: 20px;
-            font-size: 13px;
+            border-radius: 14px;
+            padding: 14px;
+            margin-top: 16px;
+            font-size: 12px;
         }
 
         .info-disclaimer-box {
             background: rgba(255, 255, 255, 0.02);
             border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 16px;
-            font-size: 13px;
+            border-radius: 14px;
+            padding: 14px;
+            font-size: 12px;
             line-height: 1.5;
             color: var(--text-muted);
             font-weight: 600;
@@ -293,15 +301,15 @@
         /* Labels e Switcher bassi */
         .footer-labels-group {
             position: absolute;
-            bottom: calc(85px + env(safe-area-inset-bottom));
-            width: calc(100% - 40px);
-            left: 20px;
+            bottom: calc(80px + env(safe-area-inset-bottom));
+            width: calc(100% - 32px);
+            left: 16px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             pointer-events: none;
         }
-        .version-label { font-size: 11px; color: #48484a; font-weight: 800; }
+        .version-label { font-size: 11px; color: #48484a; font-weight: 700; }
         .quick-layout-toggle {
             font-size: 11px;
             color: var(--primary-blue);
@@ -311,7 +319,7 @@
             border: none;
             width: auto;
             padding: 0;
-            font-weight: 800;
+            font-weight: 700;
         }
 
         /* Navigation Bar Inferiore */
@@ -327,7 +335,7 @@
             -webkit-backdrop-filter: blur(25px);
             display: grid;
             grid-template-columns: repeat(5, 1fr);
-            padding: 12px 0 calc(12px + env(safe-area-inset-bottom));
+            padding: 10px 0 calc(10px + env(safe-area-inset-bottom));
             border-top: 1px solid var(--border);
             z-index: 100;
         }
@@ -340,13 +348,13 @@
             font-size: 11px;
             font-weight: 700;
             cursor: pointer;
-            gap: 5px;
+            gap: 4px;
             background: none;
             padding: 0;
             width: auto;
         }
         .nav-item.active { color: var(--primary); }
-        .nav-item svg { width: 22px; height: 22px; fill: currentColor; }
+        .nav-item svg { width: 20px; height: 20px; fill: currentColor; }
 
         .app-page { display: none; }
         .app-page.active { display: block; }
@@ -370,7 +378,7 @@
         
         <!-- TOP BAR -->
         <div class="top-bar">
-            <h1 id="app-logo">FitTrack</h1>
+            <h1 id="app-logo">FitTrack ⚡</h1>
             <div class="date-picker-wrapper">
                 <input type="date" id="global-date-picker" onchange="changeDate(this.value)">
             </div>
@@ -379,7 +387,7 @@
         <!-- PALESTRA -->
         <div id="page-gym" class="app-page">
             <div class="card">
-                <h2>Registro Allenamento</h2>
+                <h2>🏋️ Registro Allenamento</h2>
                 <div class="form-group">
                     <label>Durata Totale Sessione (Minuti)</label>
                     <input type="number" id="session-duration" placeholder="60">
@@ -452,7 +460,7 @@
             </div>
 
             <div class="card">
-                <h2>Sessioni Svolte Oggi</h2>
+                <h2>📋 Sessioni Svolte Oggi</h2>
                 <div id="saved-sessions-list"></div>
             </div>
         </div>
@@ -460,8 +468,8 @@
         <!-- SALUTE -->
         <div id="page-lifestyle" class="app-page">
             <div class="card">
-                <h2>Idratazione Quotidiana</h2>
-                <h3 style="margin-top:0; margin-bottom: 8px; font-size: 22px;"><span id="water-total">0</span> ml / <span id="lbl-target-water">2500</span> ml</h3>
+                <h2>💧 Idratazione Quotidiana</h2>
+                <h3 style="margin-top:0; margin-bottom: 8px; font-size: 20px;"><span id="water-total">0</span> ml / <span id="lbl-target-water">2500</span> ml</h3>
                 <div class="progress-container" style="height: 10px; margin-bottom: 20px;">
                     <div id="water-progress" class="progress-fill" style="background-color: var(--primary-blue);"></div>
                 </div>
@@ -486,8 +494,8 @@
             </div>
 
             <div class="card">
-                <h2>Tracciamento Riposo</h2>
-                <h3 style="margin-top: 0; margin-bottom: 20px; font-size: 22px;">Ore Totali: <span id="sleep-total" style="color:var(--primary-purple);">0h 0m</span></h3>
+                <h2>🌙 Tracciamento Riposo</h2>
+                <h3 style="margin-top: 0; margin-bottom: 20px; font-size: 20px;">Ore Totali: <span id="sleep-total" style="color:var(--primary-purple);">0h 0m</span></h3>
                 <div class="grid-2 form-group">
                     <div><label>Addormentato</label><input type="time" id="sleep-bed"></div>
                     <div><label>Sveglia</label><input type="time" id="sleep-wake"></div>
@@ -496,10 +504,10 @@
             </div>
         </div>
 
-        <!-- HOME (EX DIARIO) -->
+        <!-- HOME -->
         <div id="page-food" class="app-page active">
             <div class="card">
-                <h2>Riepilogo Nutrizionale</h2>
+                <h2>📊 Riepilogo Nutrizionale</h2>
                 <div class="macro-grid">
                     <div class="macro-box"><span>Kcal</span><strong id="total-kcal">0</strong></div>
                     <div class="macro-box"><span>Carb</span><strong id="total-carb">0g</strong></div>
@@ -515,7 +523,7 @@
             </div>
 
             <div class="card">
-                <h2>Inserisci Alimento</h2>
+                <h2>🍳 Inserisci Alimento</h2>
                 <div class="form-group">
                     <label>Seleziona Pasto</label>
                     <select id="food-meal">
@@ -545,21 +553,21 @@
             </div>
 
             <div class="card">
-                <h2>Distribuzione dei Pasti</h2>
+                <h2>🍽️ Distribuzione dei Pasti</h2>
                 <div class="meal-section" id="meal-Colazione">
-                    <div class="meal-header"><span style="color:#ff9f0a;">Colazione</span><span class="meal-kcal" id="kcal-Colazione">0 kcal</span></div>
+                    <div class="meal-header"><span style="color:#ff9f0a;">☕ Colazione</span><span class="meal-kcal" id="kcal-Colazione">0 kcal</span></div>
                     <div class="item-list" id="list-Colazione"></div>
                 </div>
                 <div class="meal-section" id="meal-Pranzo">
-                    <div class="meal-header"><span style="color:#0a84ff;">Pranzo</span><span class="meal-kcal" id="kcal-Pranzo">0 kcal</span></div>
+                    <div class="meal-header"><span style="color:#0a84ff;">🍝 Pranzo</span><span class="meal-kcal" id="kcal-Pranzo">0 kcal</span></div>
                     <div class="item-list" id="list-Pranzo"></div>
                 </div>
                 <div class="meal-section" id="meal-Cena">
-                    <div class="meal-header"><span style="color:#30d158;">Cena</span><span class="meal-kcal" id="kcal-Cena">0 kcal</span></div>
+                    <div class="meal-header"><span style="color:#30d158;">🥩 Cena</span><span class="meal-kcal" id="kcal-Cena">0 kcal</span></div>
                     <div class="item-list" id="list-Cena"></div>
                 </div>
                 <div class="meal-section" id="meal-Snack">
-                    <div class="meal-header"><span style="color:#64d2ff;">Snacks / Altro</span><span class="meal-kcal" id="kcal-Snack">0 kcal</span></div>
+                    <div class="meal-header"><span style="color:#64d2ff;">🍎 Snacks / Altro</span><span class="meal-kcal" id="kcal-Snack">0 kcal</span></div>
                     <div class="item-list" id="list-Snack"></div>
                 </div>
             </div>
@@ -568,12 +576,12 @@
         <!-- ARCHIVIO -->
         <div id="page-archive" class="app-page">
             <div class="card">
-                <h2>Storico Salvataggi</h2>
+                <h2>📂 Storico Salvataggi</h2>
                 <div id="archive-container"></div>
             </div>
 
             <div class="muted-backup-box">
-                <span style="font-weight: 800; display: block; margin-bottom: 8px; color:var(--text-main); font-size:12px; text-transform:uppercase; letter-spacing:0.5px;">Gestione Backup Database</span>
+                <span style="font-weight: 700; display: block; margin-bottom: 8px; color:var(--text-main); font-size:12px; text-transform:uppercase; letter-spacing:0.5px;">Gestione Backup Database</span>
                 <button class="btn-neutral-muted" style="font-size:12px; padding:8px; margin-bottom:10px;" onclick="exportDatabaseToHTML()">Esporta File HTML Completo</button>
                 <input type="file" id="import-file-input" accept=".html" style="font-size:12px; padding:6px; background:transparent; border:none;" onchange="importDatabaseFromHTML(this)">
             </div>
@@ -582,7 +590,7 @@
         <!-- IMPOSTAZIONI -->
         <div id="page-settings" class="app-page">
             <div class="card">
-                <h2>Impostazioni Traguardi</h2>
+                <h2>⚙️ Impostazioni Traguardi</h2>
                 <div class="form-group">
                     <label>Target Calorie Giornaliere (Kcal)</label>
                     <input type="number" id="set-target-kcal" value="2000" onchange="updateTargetsFromSettings()">
@@ -594,7 +602,7 @@
             </div>
 
             <div class="card">
-                <h2>Interfaccia e Schermo</h2>
+                <h2>🖥️ Interfaccia e Schermo</h2>
                 <div class="form-group" style="margin-bottom: 20px;">
                     <label>Seleziona Layout Dispositivo</label>
                     <select id="set-layout-select" onchange="setLayout(this.value)">
@@ -615,11 +623,11 @@
 
     <!-- FOOTER LABELS -->
     <div class="footer-labels-group">
-        <div class="version-label">V.0.04a</div>
+        <div class="version-label">V.0.04b</div>
         <button class="quick-layout-toggle" onclick="toggleQuickLayout()">Cambia Layout Vista</button>
     </div>
 
-    <!-- NAV BAR (REORGANIZED WITH HOME IN THE MIDDLE) -->
+    <!-- NAV BAR -->
     <nav class="nav-bar">
         <button class="nav-item" onclick="switchPage('page-gym', this)">
             <svg viewBox="0 0 24 24"><path d="M20.57 14.86l-2.7-2.7 3.4-3.4c.78-.78.78-2.05 0-2.83l-1.41-1.41c-.78-.78-2.05-.78-2.83 0l-3.4 3.4-2.7-2.7c-.78-.78-2.05-.78-2.83 0l-1.41 1.41c-.78.78-.78 2.05 0 2.83l2.7 2.7-3.4 3.4c-.78.78-.78 2.05 0 2.83l1.41 1.41c.78.78 2.05.78 2.83 0l3.4-3.4 2.7 2.7c.78.78 2.05.78 2.83 0l1.41-1.41c.78-.79.78-2.05 0-2.83z"/></svg>
@@ -895,7 +903,7 @@
             sList.innerHTML += `
                 <div style="background:var(--bg-input); padding:14px; border-radius:16px; margin-bottom:12px; border:1px solid var(--border);">
                     <div style="display:flex; justify-content:between; align-items:center; margin-bottom:6px;">
-                        <span style="font-weight:800; color:var(--primary-blue); font-size:13px;">Sessione Palestra (${session.duration} min)</span>
+                        <span style="font-weight:700; color:var(--primary-blue); font-size:13px;">💪 Sessione Palestra (${session.duration} min)</span>
                         <button class="action-icon" style="margin-left:auto; font-size:12px;" onclick="deleteSession(${sIdx})">Rimuovi</button>
                     </div>
                     <ul style="margin:0; padding-left:18px; font-size:13px; color:var(--text-muted);">${exercisesHtml}</ul>
@@ -909,7 +917,7 @@
         let sortedDates = Object.keys(mainDatabase).sort((a,b) => new Date(b) - new Date(a));
         
         if(sortedDates.length === 0) {
-            container.innerHTML = '<p style="color:var(--text-muted); font-size:14px; font-weight:700;">Archivio vuoto.</p>';
+            container.innerHTML = '<p style="color:var(--text-muted); font-size:13px; font-weight:700;">Archivio vuoto.</p>';
             return;
         }
 
@@ -921,17 +929,17 @@
             container.innerHTML += `
                 <div class="archive-item">
                     <div class="archive-header-row">
-                        <div class="archive-date" onclick="selectDateFromArchive('${date}')">${formatDateItalian(date)}</div>
+                        <div class="archive-date" onclick="selectDateFromArchive('${date}')">📅 ${formatDateItalian(date)}</div>
                         <div style="display:flex; gap: 6px;">
                             <button class="btn-blue" style="padding: 6px 10px; font-size: 11px; width: auto; border-radius:8px;" onclick="selectDateFromArchive('${date}')">Carica</button>
                             <button class="btn-neutral-muted" style="padding: 6px 10px; font-size: 11px; width: auto; border-radius:8px; border-color:var(--primary-blue); color:var(--primary-blue);" onclick="exportSingleDayTXT('${date}')">TXT</button>
                             <button class="btn-danger-outline" style="padding: 6px 10px; font-size: 11px; width: auto; border-radius:8px;" onclick="deleteDayFromArchive('${date}')">Elimina</button>
                         </div>
                     </div>
-                    <div style="display:grid; grid-template-columns:1fr 1fr 1fr; font-size:13px; color:var(--text-muted); gap: 4px; margin-top:6px; font-weight:600;">
-                        <div>Calorie: <strong style="color:var(--text-main);">${kcal.toFixed(0)}</strong></div>
-                        <div>Acqua: <strong style="color:var(--text-main);">${data.water}ml</strong></div>
-                        <div>Sonno: <strong style="color:var(--text-main);">${sleepTime}</strong></div>
+                    <div style="display:grid; grid-template-columns:1fr 1fr 1fr; font-size:12px; color:var(--text-muted); gap: 4px; margin-top:6px; font-weight:600;">
+                        <div>⚡ Kcal: <strong style="color:var(--text-main);">${kcal.toFixed(0)}</strong></div>
+                        <div>💧 Acqua: <strong style="color:var(--text-main);">${data.water}ml</strong></div>
+                        <div>🌙 Sonno: <strong style="color:var(--text-main);">${sleepTime}</strong></div>
                     </div>
                 </div>`;
         });
