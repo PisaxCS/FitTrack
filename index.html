@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="it">
-    <script src_"https://unpgk.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+    <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -1331,21 +1331,21 @@ function closeBarcodeScanner() {
   document.getElementById('scanner-overlay').style.display = 'none';
 }
 
-function lookupBarcode(code) {
+    function lookupBarcode(code) {
   showToast("Ricerca prodotto in corso...");
-  fetch(https://world.openfoodfacts.org/api/v2/product/${code}.json)
+  fetch(`https://world.openfoodfacts.org/api/v2/product/${code}.json`)
     .then(res => res.json())
     .then(data => {
       if (data.status === 1 && data.product) {
         const p = data.product;
-        const n = p.nutriments  {};
-        document.getElementById('food-name').value = p.product_name  "Prodotto scansionato";
-        document.getElementById('food-kcal').value = Math.round(n['energy-kcal_100g']  0);
-        document.getElementById('food-carb').value = Math.round(n['carbohydrates_100g']  0);
-        document.getElementById('food-prot').value = Math.round(n['proteins_100g']  0);
-        document.getElementById('food-fat').value = Math.round(n['fat_100g']  0);
-        document.getElementById('food-fiber').value = Math.round(n['fiber_100g']  0);
-        showToast("Prodotto trovato: " + (p.product_name  code));
+        const n = p.nutriments || {};
+        document.getElementById('food-name').value = p.product_name || "Prodotto scansionato";
+        document.getElementById('food-kcal').value = Math.round(n['energy-kcal_100g'] || 0);
+        document.getElementById('food-carb').value = Math.round(n['carbohydrates_100g'] || 0);
+        document.getElementById('food-prot').value = Math.round(n['proteins_100g'] || 0);
+        document.getElementById('food-fat').value = Math.round(n['fat_100g'] || 0);
+        document.getElementById('food-fiber').value = Math.round(n['fiber_100g'] || 0);
+        showToast("Prodotto trovato: " + (p.product_name || code));
       } else {
         showToast("Prodotto non trovato nel database. Inseriscilo manualmente.");
       }
